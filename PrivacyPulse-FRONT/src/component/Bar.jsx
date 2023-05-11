@@ -44,23 +44,6 @@ function Bar() {
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              LOGO
-            </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
@@ -98,16 +81,15 @@ function Bar() {
                 ))}
               </Menu>
             </Box>
-            <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+            
             <Typography
-              variant="h5"
+              variant="h6"
               noWrap
               component="a"
-              href=""
+              href="/"
               sx={{
                 mr: 2,
-                display: { xs: "flex", md: "none" },
-                flexGrow: 1,
+                display: { xs: "none", md: "flex" },
                 fontFamily: "monospace",
                 fontWeight: 700,
                 letterSpacing: ".3rem",
@@ -115,8 +97,9 @@ function Bar() {
                 textDecoration: "none",
               }}
             >
-              LOGO
+              PrivacyPulse
             </Typography>
+
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page) => (
                 <Button
