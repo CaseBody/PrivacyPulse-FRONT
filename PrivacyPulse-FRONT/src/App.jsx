@@ -9,7 +9,7 @@ function App() {
         This is the home page
       </p>
       <p 
-        onClick={() => (window.location.href = `/header`)}
+        onClick={() => (window.location.href = `/bar`)}
       >
         header
       </p>
