@@ -6,6 +6,7 @@ import Bar from "./component/Bar.jsx";
 import "./index.css";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import LoginPage from "./component/pages/Login/LoginPage.jsx";
+import RegisterPage from "./component/pages/Register/RegisterPage.jsx";
 
 const darkTheme = createTheme({
 	palette: {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
 	{
 		path: "/login",
 		element: <LoginPage />,
+	},
+	{
+		path: "/register",
+		element: <RegisterPage />,
 	},
 ]);
 

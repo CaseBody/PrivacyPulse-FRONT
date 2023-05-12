@@ -5,25 +5,10 @@ import KeyIcon from "@mui/icons-material/Key";
 import { Box, Button, Container, Link, Paper, TextField, Typography, InputAdornment } from "@mui/material";
 import { sizing } from "@mui/system";
 import { PRIVACY_COLOR, PULSE_COLOR } from "../../../constants/colors";
-import { useState } from "react";
 
-const LoginPage = () => {
-	const [usernameError, setUsernameError] = useState(null);
-	const [passwordError, setPasswordError] = useState(null);
-
-	const [username, setUsername] = useState("");
-	const [password, setPassword] = useState("");
-
-	const login = () => {
-		if (username === "") setUsernameError("Please enter a username");
-
-		if (password === "") setPasswordError("Please enter a password");
-
-		if (usernameError || passwordError) return;
-	};
-
+const RegisterPage = () => {
 	return (
-		<Page title="Login" noHeader>
+		<Page title="Register" noHeader>
 			<Box disableGutters sx={{ height: "100vh", width: "100%" }} justifyContent="center" alignItems="center" display="flex">
 				<Paper elevation={6} sx={{ height: { xs: "100%", md: "55%" }, width: { xs: "100%", md: "35%" } }}>
 					<Box
@@ -57,18 +42,12 @@ const LoginPage = () => {
 									<TextField
 										label="Username"
 										fullWidth
-										error={usernameError}
-										helperText={usernameError}
 										InputProps={{
 											startAdornment: (
 												<InputAdornment position="start">
 													<AccountCircleIcon />
 												</InputAdornment>
 											),
-										}}
-										onChange={(e) => {
-											setUsername(e.target.value);
-											setUsernameError(null);
 										}}
 									/>
 								</Grid>
@@ -77,8 +56,6 @@ const LoginPage = () => {
 										label="Password"
 										type="password"
 										fullWidth
-										error={passwordError}
-										helperText={passwordError}
 										InputProps={{
 											startAdornment: (
 												<InputAdornment position="start">
@@ -86,18 +63,14 @@ const LoginPage = () => {
 												</InputAdornment>
 											),
 										}}
-										onChange={(e) => {
-											setPassword(e.target.value);
-											setPasswordError(null);
-										}}
 									/>
 								</Grid>
 							</Grid>
 							<Typography marginTop={2}>
-								Don't have an account? <Link href="/register">Register</Link>
+								Already have an account? <Link href="/login">Login</Link>
 							</Typography>
-							<Button variant="outlined" sx={{ margin: 5, padding: 1, width: "50%" }} onClick={login}>
-								Login
+							<Button variant="outlined" sx={{ margin: 5, padding: 1, width: "50%" }}>
+								Create account
 							</Button>
 						</Box>
 					</Box>
@@ -107,4 +80,4 @@ const LoginPage = () => {
 	);
 };
 
-export default LoginPage;
+export default RegisterPage;
