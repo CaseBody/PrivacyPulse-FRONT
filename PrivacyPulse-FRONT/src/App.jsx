@@ -13,11 +13,6 @@ function App() {
       >
         header
       </p>
-      <p 
-        onClick={() => (window.location.href = `/login`)}
-      >
-        header
-      </p>
     </>
   )
 }
