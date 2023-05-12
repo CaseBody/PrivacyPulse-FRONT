@@ -10,7 +10,7 @@ function App() {
       <p className="read-the-docs">
         This is the home page.
       </p>
-      <p onClick={() => navigate("/bar")}>
+      <p onClick={() => navigate("/header")}>
         Header
       </p>
       <p onClick={() => navigate("/login")}>
