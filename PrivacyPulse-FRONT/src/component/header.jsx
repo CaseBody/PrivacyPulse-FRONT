@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Bar() {
+function Header() {
   const classes = useStyles();
 
   return (
@@ -32,4 +32,4 @@ function Bar() {
   );
 }
 
-export default Bar;
+export default Header;
