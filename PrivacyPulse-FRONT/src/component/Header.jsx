@@ -12,6 +12,9 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import Badge from "@mui/material/Badge";
+import ChatIcon from "@mui/icons-material/Chat";
+import PeopleIcon from "@mui/icons-material/People";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -93,6 +96,7 @@ function Header() {
               ))}
             </Menu>
           </Box>
+
           <Typography
             variant="h5"
             noWrap
@@ -111,6 +115,7 @@ function Header() {
           >
             PrivacyPulse
           </Typography>
+
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
@@ -121,6 +126,38 @@ function Header() {
                 {page}
               </Button>
             ))}
+          </Box>
+
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <IconButton
+              size="large"
+              aria-label="show 4 new mails"
+              color="inherit"
+            >
+              <Badge badgeContent={4} color="error">
+                <ChatIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
+            >
+              <Badge badgeContent={17} color="error">
+                <PeopleIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
