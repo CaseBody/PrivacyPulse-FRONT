@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
 import App from "./App.jsx";
+import Header from "./component/Header.jsx";
+import Login from "./component/Login.jsx";
 import Bar from "./component/Bar.jsx";
 import "./index.css";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
