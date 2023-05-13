@@ -24,9 +24,9 @@ const RegisterPage = () => {
 		const userNameValid = username.length >= 5;
 		const passwordValid = password.length >= 7;
 
-		if (!userNameValid) setUsernameError("Please enter a username longer than 5 charachters");
+		if (!userNameValid) setUsernameError("Please enter a username longer than 5 characters");
 
-		if (!passwordValid) setPasswordError("Please enter a password longer than 7 charachters");
+		if (!passwordValid) setPasswordError("Please enter a password longer than 7 characters");
 
 		if (userNameValid && passwordValid) {
 			fetch(`${API_URL}auth/register`, {
