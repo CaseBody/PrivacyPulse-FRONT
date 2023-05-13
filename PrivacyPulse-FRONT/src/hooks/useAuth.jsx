@@ -5,12 +5,9 @@ const useAuth = () => {
 	const navigate = useNavigate();
 
 	const userName = window.localStorage.getItem("userName");
-	const avatar = window.localStorage.getItem("avatar");
+	const user = window.localStorage.getItem("user");
 	const token = window.localStorage.getItem("token");
-
-	if (!avatar || !userName || !token) {
-		navigate("/login");
-	}
+	const privateKey = window.localStorage.getItem("privateKey");
 
 	const authFetch = (url, body, useCustomUrl) => {
 		return fetch(useCustomUrl ? url : `${API_URL}${url}`, {
@@ -21,7 +18,8 @@ const useAuth = () => {
 		}).then((response) => {
 			if (response.status == 401) {
 				window.localStorage.removeItem("userName");
-				window.localStorage.removeItem("avatar");
+				window.localStorage.removeItem("user");
+				window.localStorage.removeItem("privateKey");
 				window.localStorage.removeItem("token");
 
 				navigate("/login");
@@ -33,11 +31,15 @@ const useAuth = () => {
 	};
 
 	return {
+		isLoggedIn: userName && privateKey && token,
 		user: {
+			user,
 			userName,
-			avatar,
+			privateKey,
 			token,
 		},
 		authFetch,
 	};
 };
+
+export default useAuth;
