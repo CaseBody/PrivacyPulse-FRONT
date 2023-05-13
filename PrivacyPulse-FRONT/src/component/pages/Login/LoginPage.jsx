@@ -73,9 +73,9 @@ const LoginPage = () => {
 	};
 
 	return (
-		<Page title="Login" noHeader>
-			<Box disableGutters sx={{ height: "100vh", width: "100%" }} justifyContent="center" alignItems="center" display="flex">
-				<Paper elevation={6} sx={{ height: { xs: "100%", md: "55%" }, width: { xs: "100%", md: "35%" } }}>
+		<Page title="Login">
+			<Box sx={{ height: "92vh", width: "100%" }} justifyContent="center" alignItems="center" display="flex">
+				<Paper elevation={6} sx={{ minHeight: { xs: "100%", md: "55%" }, width: { xs: "100%", md: "35%" } }}>
 					<Box
 						sx={{
 							width: "100%",
@@ -103,7 +103,7 @@ const LoginPage = () => {
 							}}
 						>
 							<Grid container spacing={3} justifyContent={"center"} xs={12}>
-								<Grid sx={12} md={11} spacing={1}>
+								<Grid xs={12} md={11} spacing={1}>
 									<TextField
 										label="Username"
 										fullWidth
@@ -122,7 +122,7 @@ const LoginPage = () => {
 										}}
 									/>
 								</Grid>
-								<Grid sx={12} md={11}>
+								<Grid xs={12} md={11}>
 									<TextField
 										label="Password"
 										type="password"
