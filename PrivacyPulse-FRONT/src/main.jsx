@@ -7,6 +7,8 @@ import "./index.css";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import LoginPage from "./component/pages/Login/LoginPage.jsx";
 import RegisterPage from "./component/pages/Register/RegisterPage.jsx";
+import { SnackbarProvider } from "notistack";
+import CssBaseline from "@mui/material/CssBaseline";
 
 const darkTheme = createTheme({
 	palette: {
@@ -36,7 +38,10 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<ThemeProvider theme={darkTheme}>
 		<React.StrictMode>
-			<RouterProvider router={router} />
+			<CssBaseline />
+			<SnackbarProvider>
+				<RouterProvider router={router} />
+			</SnackbarProvider>
 		</React.StrictMode>
 	</ThemeProvider>
 );

@@ -6,8 +6,14 @@ import { Box, Button, Container, Link, Paper, TextField, Typography, InputAdornm
 import { sizing } from "@mui/system";
 import { PRIVACY_COLOR, PULSE_COLOR } from "../../../constants/colors";
 import { useState } from "react";
+import { useSnackbar } from "notistack";
+import { useNavigate } from "react-router-dom";
+import { API_URL } from "../../../constants/links";
 
 const LoginPage = () => {
+	const { enqueueSnackbar } = useSnackbar();
+	const navigate = useNavigate();
+
 	const [usernameError, setUsernameError] = useState(null);
 	const [passwordError, setPasswordError] = useState(null);
 
@@ -19,7 +25,51 @@ const LoginPage = () => {
 
 		if (password === "") setPasswordError("Please enter a password");
 
-		if (usernameError || passwordError) return;
+		if (username !== "" && password !== "") {
+			fetch(`${API_URL}auth/login`, {
+				method: "POST",
+				body: JSON.stringify({
+					username,
+					password,
+				}),
+				headers: {
+					"Content-type": "application/json; charset=UTF-8",
+				},
+			})
+				.then((response) => {
+					return new Promise((resolve) => {
+						if (response.ok) {
+							response.json().then((json) =>
+								resolve({
+									status: response.status,
+									ok: response.ok,
+									json,
+								})
+							);
+						} else {
+							resolve({
+								status: response.status,
+								ok: response.ok,
+								json: response,
+							});
+						}
+					});
+				})
+				.then(({ status, json, ok }) => {
+					if (!ok) {
+						json.text().then((text) => enqueueSnackbar(text, { variant: "error" }));
+						return;
+					}
+
+					console.log(json);
+					window.localStorage.setItem("user", json.user);
+					window.localStorage.setItem("userName", json.userName);
+					window.localStorage.setItem("privateKey", json.privateKey);
+					window.localStorage.setItem("token", json.token);
+
+					navigate("/");
+				});
+		}
 	};
 
 	return (
