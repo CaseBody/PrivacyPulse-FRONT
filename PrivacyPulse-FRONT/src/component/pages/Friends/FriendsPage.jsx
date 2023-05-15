@@ -6,24 +6,61 @@ import useAuth from "../../../hooks/useAuth";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { API_URL } from "../../../constants/links";
+import { useSnackbar } from "notistack";
 
 const FriendsPage = () => {
 	const { isLoggedIn, authFetch } = useAuth();
 	const navigate = useNavigate();
+	const { enqueueSnackbar } = useSnackbar();
+	
 
 	const [friendRequests, setFriendRequests] = useState(null);
 	const [friends, setFriends] = useState(null);
 
-	useEffect(() => {
-		if (!isLoggedIn) navigate("/login");
-
-		authFetch("friendRequests", { method: "GET" })
-			.then((r) => r.json())
-			.then((data) => setFriendRequests(data));
-
+	const fetchFriends = () => {
 		authFetch("friends", { method: "GET" })
 			.then((r) => r.json())
 			.then((data) => setFriends(data));
+	}
+
+	const fetchFriendRequests = () => {
+		authFetch("friendRequests", { method: "GET" })
+			.then((r) => r.json())
+			.then((data) => setFriendRequests(data));
+	}
+
+	const AcceptRequest = (id) => {
+		authFetch("friendRequests/" + id + "/accept", { method: "PUT" })
+			.then(r => {
+				if (r.ok)
+				{
+					fetchFriends();
+					fetchFriendRequests();
+					enqueueSnackbar("Friend added", {variant: "success"});
+				}
+				else
+				{
+					enqueueSnackbar("Error occured while accepting request", {variant: "error"});
+				}
+			});
+	}
+
+	const DenyRequest = (id) => {
+		authFetch("friendRequests/" + id + "/deny", { method: "PUT" })
+			.then(r => {
+				fetchFriendRequests();
+				if (!r.ok)
+				{
+					enqueueSnackbar("Error occured while denying request", {variant: "error"});
+				}
+			});
+	}
+
+	useEffect(() => {
+		if (!isLoggedIn) navigate("/login");
+
+		fetchFriendRequests();
+		fetchFriends();
 	}, []);
 
 	return (
@@ -76,10 +113,10 @@ const FriendsPage = () => {
 										justifyContent="center"
 										padding={1}
 									>
-										<IconButton aria-label="delete" color="primary.dark">
+										<IconButton aria-label="delete" color="primary.dark" onClick={() => AcceptRequest(request.id)}>
 											<CheckIcon />
 										</IconButton>
-										<IconButton aria-label="delete" color="primary.dark">
+										<IconButton aria-label="delete" color="primary.dark" onClick={() => DenyRequest(request.id)}>
 											<ClearIcon />
 										</IconButton>
 									</Box>
@@ -112,11 +149,10 @@ const FriendsPage = () => {
 						display="flex"
 						width="100%"
 						flexWrap="wrap"
-						columnGap={3}
-						rowGap={3}
-						padding={3}
+						gap={3}
 						margin={3}
-						justifyContent={{ xs: "center", md: "space-around" }}
+						padding={2}
+						justifyContent={{md: "flex-start", xs: "center"}}
 					>
 						{friends ? (
 							friends.map((friend) => (
@@ -126,7 +162,8 @@ const FriendsPage = () => {
 										display: "flex",
 										justifyContent: "center",
 										alignItems: "center",
-										width: 200,
+										width: { md: "15.2%", xs: "65%" },
+										minWidth: 150,
 									}}
 								>
 									<CardActionArea onClick={() => navigate(`/users/${friend.userId}/profile`)}>
