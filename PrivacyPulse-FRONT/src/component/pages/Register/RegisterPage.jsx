@@ -20,7 +20,11 @@ const RegisterPage = () => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 
+	const [buttonDisabled, setButtonDisabled] = useState(false);
+
 	const register = () => {
+		setButtonDisabled(true);
+
 		const userNameValid = username.length >= 5;
 		const passwordValid = password.length >= 7;
 
@@ -39,6 +43,7 @@ const RegisterPage = () => {
 					"Content-type": "application/json; charset=UTF-8",
 				},
 			}).then((res) => {
+				setButtonDisabled(false);
 				if (!res.ok) {
 					res.text().then((text) => enqueueSnackbar(text, { variant: "error" }));
 					return;
@@ -47,6 +52,8 @@ const RegisterPage = () => {
 				enqueueSnackbar("Account created", { variant: "success" });
 				navigate("/login");
 			});
+		} else {
+			setButtonDisabled(false);
 		}
 	};
 
@@ -124,7 +131,12 @@ const RegisterPage = () => {
 							<Typography marginTop={2}>
 								Already have an account? <Link href="/login">Login</Link>
 							</Typography>
-							<Button variant="outlined" sx={{ margin: 5, padding: 1, width: "50%" }} onClick={register}>
+							<Button
+								disabled={buttonDisabled}
+								variant="outlined"
+								sx={{ margin: 5, padding: 1, width: "50%" }}
+								onClick={register}
+							>
 								Create account
 							</Button>
 						</Box>

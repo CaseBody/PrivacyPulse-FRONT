@@ -20,7 +20,11 @@ const LoginPage = () => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 
+	const [buttonDisabled, setButtonDisabled] = useState(false);
+
 	const login = () => {
+		setButtonDisabled(true);
+
 		if (username === "") setUsernameError("Please enter a username");
 
 		if (password === "") setPasswordError("Please enter a password");
@@ -56,6 +60,8 @@ const LoginPage = () => {
 					});
 				})
 				.then(({ status, json, ok }) => {
+					setButtonDisabled(false);
+
 					if (!ok) {
 						json.text().then((text) => enqueueSnackbar(text, { variant: "error" }));
 						return;
@@ -69,6 +75,8 @@ const LoginPage = () => {
 
 					navigate("/");
 				});
+		} else {
+			setButtonDisabled(false);
 		}
 	};
 
@@ -146,7 +154,12 @@ const LoginPage = () => {
 							<Typography marginTop={2}>
 								Don't have an account? <Link href="/register">Register</Link>
 							</Typography>
-							<Button variant="outlined" sx={{ margin: 5, padding: 1, width: "50%" }} onClick={login}>
+							<Button
+								variant="outlined"
+								sx={{ margin: 5, padding: 1, width: "50%" }}
+								onClick={login}
+								disabled={buttonDisabled}
+							>
 								Login
 							</Button>
 						</Box>
