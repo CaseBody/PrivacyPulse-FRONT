@@ -11,7 +11,7 @@ function App() {
 
 	return (
 		<Page>
-			<p className="read-the-docs">This is the home page.</p>
+			<Typography className="read-the-docs">This is the home page.</Typography>
 			{isLoggedIn && (
 				<Typography>
 					<b>Welcome back {user.userName}</b>
