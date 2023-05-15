@@ -37,7 +37,7 @@ const ProfilePage = () => {
           elevation={6}
           sx={{
             height: { xs: "100%", md: "75%" },
-            width: { xs: "100%", md: "75%" },
+            width: { xs: "100%", md: "50%" },
           }}
         >
           <Box
@@ -74,15 +74,12 @@ const ProfilePage = () => {
               flexDirection: "column",
             }}
           >
-            <Typography>Biography</Typography>
+            <Typography>Biography of <b>Username</b>:</Typography>
             <TextField
-              label="Biography"
-              fullWidth
-              sx={{
-                "& .MuiInputBase-input": {
-                  height: "150px",
-                },
-              }}
+              placeholder="Write you're own biography here..."
+              multiline
+              rows={6}
+              maxRows={4}
             />
           </Box>
         </Paper>
