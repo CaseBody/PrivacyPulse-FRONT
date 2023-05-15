@@ -9,6 +9,7 @@ import RegisterPage from "./component/pages/Register/RegisterPage.jsx";
 import { SnackbarProvider } from "notistack";
 import CssBaseline from "@mui/material/CssBaseline";
 import LogoutPage from "./component/pages/Logout/LogoutPage.jsx";
+import ProfilePage from "./component/pages/Profile/ProfilePage.jsx";
 
 const darkTheme = createTheme({
 	palette: {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
 	{
 		path: "/logout",
 		element: <LogoutPage />,
+	},
+	{
+		path: "/profile",
+		element: <ProfilePage />,
 	},
 ]);
 
