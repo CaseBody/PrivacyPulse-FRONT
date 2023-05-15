@@ -26,7 +26,7 @@ const useAuth = () => {
 				return new Promise((r) => r(null));
 			}
 
-			return response.json();
+			return response;
 		});
 	};
 

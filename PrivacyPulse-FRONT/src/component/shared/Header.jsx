@@ -19,6 +19,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import useAuth from "../../hooks/useAuth";
 import { PRIVACY_COLOR, PULSE_COLOR } from "../../constants/colors";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../../constants/links";
 
 const pages = ["Chats", "Friends"];
 const settings = [
@@ -28,7 +29,7 @@ const settings = [
 ];
 
 function Header() {
-	const { isLoggedIn } = useAuth();
+	const { isLoggedIn, user } = useAuth();
 	const navigate = useNavigate();
 
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -214,7 +215,7 @@ function Header() {
 					<Box sx={{ flexGrow: 0 }}>
 						<Tooltip title="Account">
 							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-								<Avatar alt="Profile" src="" />
+								<Avatar alt="Profile" src={`${API_URL}users/${user?.user}/profilePicture`} />
 							</IconButton>
 						</Tooltip>
 						<Menu

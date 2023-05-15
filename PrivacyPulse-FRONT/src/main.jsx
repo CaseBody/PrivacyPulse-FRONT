@@ -3,12 +3,14 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
 import App from "./App.jsx";
 import "./index.css";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import ThemeProvider from "@mui/material/styles/ThemeProvider";
+import createTheme from "@mui/material/styles/createTheme.js";
 import LoginPage from "./component/pages/Login/LoginPage.jsx";
 import RegisterPage from "./component/pages/Register/RegisterPage.jsx";
 import { SnackbarProvider } from "notistack";
 import CssBaseline from "@mui/material/CssBaseline";
 import LogoutPage from "./component/pages/Logout/LogoutPage.jsx";
+import FriendsPage from "./component/pages/Friends/FriendsPage.jsx";
 
 const darkTheme = createTheme({
 	palette: {
@@ -32,6 +34,10 @@ const router = createBrowserRouter([
 	{
 		path: "/logout",
 		element: <LogoutPage />,
+	},
+	{
+		path: "/friends",
+		element: <FriendsPage />,
 	},
 ]);
 
