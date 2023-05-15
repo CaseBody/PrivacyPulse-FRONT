@@ -11,6 +11,7 @@ import {
   TextField,
   Typography,
   InputAdornment,
+  Avatar,
 } from "@mui/material";
 import { sizing } from "@mui/system";
 import { PRIVACY_COLOR, PULSE_COLOR } from "../../../constants/colors";
@@ -26,10 +27,11 @@ const ProfilePage = () => {
   return (
     <Page title="Profile">
       <Box
+        display={"flex"}
         sx={{ height: "92vh", width: "100%" }}
         justifyContent="center"
         alignItems="center"
-        display="flex"
+        flexDirection="column"
       >
         <Paper
           elevation={6}
@@ -43,11 +45,23 @@ const ProfilePage = () => {
             padding={7}
             sx={{
               width: "100%",
-              height: "50%",
+              height: "60%",
               justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
             }}
           >
-            <Typography>test123</Typography>
+            <Avatar
+              alt="Profile pic"
+              src=""
+              sx={{
+                width: "250px",
+                height: "250px",
+              }}
+            />
+            <Typography variant="h3" mt={2}>
+              Username
+            </Typography>
           </Box>
 
           <Box
@@ -55,11 +69,21 @@ const ProfilePage = () => {
             padding={7}
             sx={{
               width: "100%",
-              height: "50%",
+              height: "40%",
               justifyContent: "center",
+              flexDirection: "column",
             }}
           >
-            <Typography>test123</Typography>
+            <Typography>Biography</Typography>
+            <TextField
+              label="Biography"
+              fullWidth
+              sx={{
+                "& .MuiInputBase-input": {
+                  height: "150px",
+                },
+              }}
+            />
           </Box>
         </Paper>
       </Box>
