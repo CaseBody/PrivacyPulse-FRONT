@@ -59,18 +59,17 @@ function Header() {
 	};
 
 	const fetchNotifs = () => {
-		authFetch("friendRequests/open", { method: "GET"})
+		authFetch("friendRequests/open", { method: "GET" })
 			.then((r) => r.json())
-			.then(number => setFriendRequestNotifs(number));
-	}
+			.then((number) => setFriendRequestNotifs(number));
+	};
 
 	useEffect(() => {
-		if (isLoggedIn)
-		{
+		if (isLoggedIn) {
 			fetchNotifs();
-			setInterval(fetchNotifs, 10000)
+			setInterval(fetchNotifs, 10000);
 		}
-	}, [])
+	}, []);
 
 	return (
 		<AppBar position="fixed">
@@ -203,11 +202,7 @@ function Header() {
 									</IconButton>
 								</Tooltip>
 								<Tooltip title="Friends">
-									<IconButton
-										size="large"
-										color="inherit"
-										onClick={() => navigate("/friends")}
-									>
+									<IconButton size="large" color="inherit" onClick={() => navigate("/friends")}>
 										<Badge badgeContent={friendRequestNotifs} color="error">
 											<PeopleIcon />
 										</Badge>
@@ -231,7 +226,7 @@ function Header() {
 					<Box sx={{ flexGrow: 0 }}>
 						<Tooltip title="Account">
 							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-								<Avatar src={`${API_URL}users/${user?.user}/profilePicture`} />
+								<Avatar src={`${API_URL}users/${user?.id}/profilePicture`} />
 							</IconButton>
 						</Tooltip>
 						<Menu

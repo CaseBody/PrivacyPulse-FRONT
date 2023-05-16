@@ -13,7 +13,7 @@ const SearchFriendsModal = ({ isOpen, onClose }) => {
 			authFetch(`friends/find${query != "" ? "?name=" + query : ""}`)
 				.then((r) => r.json())
 				.then((data) => setUsers(data));
-		}, 1000);
+		}, 800);
 
 		return () => clearTimeout(getData);
 	}, [query]);
