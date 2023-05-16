@@ -1,20 +1,5 @@
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import Page from "../../shared/Page";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import KeyIcon from "@mui/icons-material/Key";
-import {
-  Box,
-  Button,
-  Container,
-  Link,
-  Paper,
-  TextField,
-  Typography,
-  InputAdornment,
-  Avatar,
-} from "@mui/material";
-import { sizing } from "@mui/system";
-import { PRIVACY_COLOR, PULSE_COLOR } from "../../../constants/colors";
+import { Box, Paper, TextField, Typography, Avatar } from "@mui/material";
 import { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import { useSnackbar } from "notistack";
@@ -61,7 +46,7 @@ const ProfilePage = () => {
             padding={7}
             sx={{
               width: "100%",
-              height: "60%",
+              height: "70%",
               justifyContent: "center",
               alignItems: "center",
               flexDirection: "column",
@@ -70,12 +55,12 @@ const ProfilePage = () => {
             <Avatar
               src={`${API_URL}users/${id}/profilePicture`}
               sx={{
-                width: "250px",
-                height: "250px",
+                width: "300px",
+                height: "300px",
               }}
             />
             <Typography variant="h3" mt={2}>
-              Username
+              {profile?.username}
             </Typography>
           </Box>
 
@@ -84,19 +69,22 @@ const ProfilePage = () => {
             padding={7}
             sx={{
               width: "100%",
-              height: "40%",
+              height: "30%",
               justifyContent: "center",
               flexDirection: "column",
             }}
           >
-            <Typography>
-              Biography of <b>Username</b>:
-            </Typography>
+            {/* <Typography>
+              Biography of <b>{profile?.username}</b>:
+            </Typography> */}
             <TextField
               placeholder="Write you're own biography here..."
               multiline
-              rows={6}
-              maxRows={4}
+              rows={7}
+              sx={{
+                marginBottom: 8,
+              }}
+              defaultValue={profile?.biography}
             />
           </Box>
         </Paper>
