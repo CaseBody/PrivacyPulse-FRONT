@@ -19,6 +19,8 @@ import PeopleIcon from "@mui/icons-material/People";
 import useAuth from "../../hooks/useAuth";
 import { PRIVACY_COLOR, PULSE_COLOR } from "../../constants/colors";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../../constants/links";
+import { useEffect } from "react";
 
 const pages = ["Chats", "Friends"];
 const settings = [
@@ -28,12 +30,14 @@ const settings = [
 ];
 
 function Header() {
-	const { isLoggedIn } = useAuth();
+	const { isLoggedIn, user, authFetch } = useAuth();
 	const navigate = useNavigate();
 
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
 	const [anchorElUser, setAnchorElUser] = React.useState(null);
 	const [menuId, setMenuId] = useState(null);
+
+	const [friendRequestNotifs, setFriendRequestNotifs] = useState(0);
 
 	const handleOpenNavMenu = (event) => {
 		setAnchorElNav(event.currentTarget);
@@ -51,8 +55,22 @@ function Header() {
 	};
 
 	const handleProfileMenuOpen = (event) => {
-		setAnchorEl(event.currentTarget);
+		setAnchorElNav(event.currentTarget);
 	};
+
+	const fetchNotifs = () => {
+		authFetch("friendRequests/open", { method: "GET"})
+			.then((r) => r.json())
+			.then(number => setFriendRequestNotifs(number));
+	}
+
+	useEffect(() => {
+		if (isLoggedIn)
+		{
+			fetchNotifs();
+			setInterval(fetchNotifs, 10000)
+		}
+	}, [])
 
 	return (
 		<AppBar position="fixed">
@@ -187,11 +205,10 @@ function Header() {
 								<Tooltip title="Friends">
 									<IconButton
 										size="large"
-										aria-label="show 17 new notifications"
 										color="inherit"
 										onClick={() => navigate("/friends")}
 									>
-										<Badge badgeContent={17} color="error">
+										<Badge badgeContent={friendRequestNotifs} color="error">
 											<PeopleIcon />
 										</Badge>
 									</IconButton>
@@ -214,7 +231,7 @@ function Header() {
 					<Box sx={{ flexGrow: 0 }}>
 						<Tooltip title="Account">
 							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-								<Avatar alt="Profile" src="" />
+								<Avatar src={`${API_URL}users/${user?.user}/profilePicture`} />
 							</IconButton>
 						</Tooltip>
 						<Menu
