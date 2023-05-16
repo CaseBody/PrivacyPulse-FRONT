@@ -1,4 +1,4 @@
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import Grid2 from "@mui/material/Unstable_Grid2";
 import Page from "../../shared/Page";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import KeyIcon from "@mui/icons-material/Key";
@@ -110,8 +110,8 @@ const LoginPage = () => {
 								flexDirection: "column",
 							}}
 						>
-							<Grid container spacing={3} justifyContent={"center"} xs={12}>
-								<Grid xs={12} md={11} spacing={1}>
+							<Grid2 container spacing={3} justifyContent={"center"} xs={12}>
+								<Grid2 item xs={12} md={11} spacing={1}>
 									<TextField
 										label="Username"
 										fullWidth
@@ -129,8 +129,8 @@ const LoginPage = () => {
 											setUsernameError(null);
 										}}
 									/>
-								</Grid>
-								<Grid xs={12} md={11}>
+								</Grid2>
+								<Grid2 item xs={12} md={11}>
 									<TextField
 										label="Password"
 										type="password"
@@ -149,8 +149,8 @@ const LoginPage = () => {
 											setPasswordError(null);
 										}}
 									/>
-								</Grid>
-							</Grid>
+								</Grid2>
+							</Grid2>
 							<Typography marginTop={2}>
 								Don't have an account? <Link href="/register">Register</Link>
 							</Typography>
