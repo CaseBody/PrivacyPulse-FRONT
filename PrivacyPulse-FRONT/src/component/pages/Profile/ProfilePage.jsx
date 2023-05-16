@@ -15,14 +15,30 @@ import {
 } from "@mui/material";
 import { sizing } from "@mui/system";
 import { PRIVACY_COLOR, PULSE_COLOR } from "../../../constants/colors";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useAuth from "../../../hooks/useAuth";
 import { useSnackbar } from "notistack";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { API_URL } from "../../../constants/links";
 
 const ProfilePage = () => {
+  const { isLoggedIn, authFetch } = useAuth();
+  const { id } = useParams();
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
+  const [profile, setProfile] = useState(null);
+
+  const FetchProfile = () => {
+    authFetch(`users/${id}/profile`, { method: "GET" })
+      .then((r) => r.json())
+      .then((data) => setProfile(data));
+  };
+
+  useEffect(() => {
+    if (!isLoggedIn) navigate("/login");
+
+    FetchProfile();
+  }, []);
 
   return (
     <Page title="Profile">
@@ -52,8 +68,7 @@ const ProfilePage = () => {
             }}
           >
             <Avatar
-              alt="Profile pic"
-              src=""
+              src={`${API_URL}users/${id}/profilePicture`}
               sx={{
                 width: "250px",
                 height: "250px",
@@ -74,7 +89,9 @@ const ProfilePage = () => {
               flexDirection: "column",
             }}
           >
-            <Typography>Biography of <b>Username</b>:</Typography>
+            <Typography>
+              Biography of <b>Username</b>:
+            </Typography>
             <TextField
               placeholder="Write you're own biography here..."
               multiline
