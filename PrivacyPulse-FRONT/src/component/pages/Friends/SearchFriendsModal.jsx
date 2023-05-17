@@ -1,7 +1,19 @@
-import { Avatar, Box, Card, CardActionArea, CircularProgress, Modal, Paper, TextField, Typography } from "@mui/material";
+import {
+	Avatar,
+	Box,
+	Card,
+	CardActionArea,
+	CircularProgress,
+	IconButton,
+	Modal,
+	Paper,
+	TextField,
+	Typography,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import { API_URL } from "../../../constants/links";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const SearchFriendsModal = ({ isOpen, onClose }) => {
 	const [users, setUsers] = useState(null);
@@ -32,12 +44,17 @@ const SearchFriendsModal = ({ isOpen, onClose }) => {
 				}}
 				elevation={8}
 			>
-				<Typography variant="h3">Add friend</Typography>
+				<Box display={"flex"} width={"100%"} justifyContent={"space-between"} alignItems={"center"}>
+					<Typography variant="h3">Add friend</Typography>
+					<IconButton onClick={onClose}>
+						<ClearIcon sx={{ width: 40, height: 40 }} />
+					</IconButton>
+				</Box>
 				<TextField onChange={(e) => setQuery(e.target.value)} label="Username" placeholder="Search for users..." />
 				<Box
 					width="100%"
 					sx={{
-						"overflow-x": "hidden",
+						overflowX: "hidden",
 						"&::-webkit-scrollbar": {},
 					}}
 				>
@@ -51,6 +68,7 @@ const SearchFriendsModal = ({ isOpen, onClose }) => {
 										justifyContent: "center",
 										alignItems: "center",
 										width: "32%",
+										height: 142,
 										minWidth: 150,
 									}}
 								>
