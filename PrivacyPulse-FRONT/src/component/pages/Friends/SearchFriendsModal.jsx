@@ -14,17 +14,45 @@ import { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import { API_URL } from "../../../constants/links";
 import ClearIcon from "@mui/icons-material/Clear";
+import { useSnackbar } from "notistack";
 
-const SearchFriendsModal = ({ isOpen, onClose }) => {
+const SearchFriendsModal = ({ isOpen, onClose, reFetchFriends, reFetchRequests }) => {
 	const [users, setUsers] = useState(null);
 	const [query, setQuery] = useState("");
+	const [disabled, setDisabled] = useState(false);
+	const { enqueueSnackbar } = useSnackbar();
+
 	const { authFetch } = useAuth();
+
+	const reFetch = () => {
+		authFetch(`friends/find${query != "" ? "?name=" + query : ""}`)
+			.then((r) => r.json())
+			.then((data) => setUsers(data));
+	};
+
+	const addFriend = (id) => {
+		setDisabled(true);
+
+		authFetch(`friendRequests?addedUserId=${id}`, { method: "POST" }).then((r) => {
+			if (r.ok) {
+				enqueueSnackbar("Friend request send to user successfully", { variant: "success" });
+			} else {
+				enqueueSnackbar("Error sending friend request", { variant: "error" });
+			}
+
+			onClose();
+			setQuery("");
+			reFetch();
+			reFetchFriends();
+			reFetchRequests();
+
+			setDisabled(false);
+		});
+	};
 
 	useEffect(() => {
 		const getData = setTimeout(() => {
-			authFetch(`friends/find${query != "" ? "?name=" + query : ""}`)
-				.then((r) => r.json())
-				.then((data) => setUsers(data));
+			reFetch();
 		}, 800);
 
 		return () => clearTimeout(getData);
@@ -72,7 +100,7 @@ const SearchFriendsModal = ({ isOpen, onClose }) => {
 										minWidth: 150,
 									}}
 								>
-									<CardActionArea onClick={() => navigate(`/users/${user.id}/profile`)}>
+									<CardActionArea disabled={disabled} onClick={() => addFriend(user.id)}>
 										<Box display="flex" flexDirection="column" padding={2} justifyContent={"center"} alignItems={"center"}>
 											<Avatar sx={{ width: 66, height: 66, margin: 1 }} src={`${API_URL}users/${user.id}/profilePicture`} />
 											<Box>

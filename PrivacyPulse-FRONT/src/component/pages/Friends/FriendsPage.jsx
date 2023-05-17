@@ -207,7 +207,12 @@ const FriendsPage = () => {
 					</Paper>
 				</Box>
 			</Page>
-			<SearchFriendsModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+			<SearchFriendsModal
+				isOpen={modalOpen}
+				onClose={() => setModalOpen(false)}
+				reFetchFriends={fetchFriends}
+				reFetchRequests={fetchFriendRequests}
+			/>
 		</>
 	);
 };
