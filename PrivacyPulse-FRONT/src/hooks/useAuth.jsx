@@ -26,14 +26,14 @@ const useAuth = () => {
 				return new Promise((r) => r(null));
 			}
 
-			return response.json();
+			return response;
 		});
 	};
 
 	return {
 		isLoggedIn: userName && privateKey && token,
 		user: {
-			user,
+			id: user,
 			userName,
 			privateKey,
 			token,
