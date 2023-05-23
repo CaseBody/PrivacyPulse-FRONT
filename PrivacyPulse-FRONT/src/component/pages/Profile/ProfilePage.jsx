@@ -19,6 +19,10 @@ const ProfilePage = () => {
       .then((data) => setProfile(data));
   };
 
+  const UpdateBio = (biography) => {
+    authFetch(`users/updateBio?bio=${biography}`, { method: "PUT" })
+  };
+
   useEffect(() => {
     if (!isLoggedIn) navigate("/login");
 
@@ -74,15 +78,18 @@ const ProfilePage = () => {
               flexDirection: "column",
             }}
           >
-            {/* <Typography>
-              Biography of <b>{profile?.username}</b>:
-            </Typography> */}
             <TextField
               placeholder="Write you're own biography here..."
               multiline
               rows={7}
               sx={{
                 marginBottom: 8,
+              }}
+              inputProps={{
+                onBlur: (e) => {
+                  const biography = e.target.value;
+                  UpdateBio(biography);
+                },
               }}
               defaultValue={profile?.biography}
             />
