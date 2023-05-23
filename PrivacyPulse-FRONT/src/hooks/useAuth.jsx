@@ -33,7 +33,7 @@ const useAuth = () => {
 	return {
 		isLoggedIn: userName && privateKey && token,
 		user: {
-			user,
+			id: user,
 			userName,
 			privateKey,
 			token,

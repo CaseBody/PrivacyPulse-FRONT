@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { API_URL } from "../../../constants/links";
 
 const ProfilePage = () => {
-  const { isLoggedIn, authFetch } = useAuth();
+  const { isLoggedIn, user, authFetch } = useAuth();
   const { id } = useParams();
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const ProfilePage = () => {
   };
 
   const UpdateBio = (biography) => {
-    authFetch(`users/updateBio?bio=${biography}`, { method: "PUT" })
+    authFetch(`users/updateBio?bio=${biography}`, { method: "PUT" });
   };
 
   useEffect(() => {
@@ -28,6 +28,9 @@ const ProfilePage = () => {
 
     FetchProfile();
   }, []);
+
+  console.log(user);
+  console.log(id);
 
   return (
     <Page title="Profile">
@@ -91,6 +94,7 @@ const ProfilePage = () => {
                   UpdateBio(biography);
                 },
               }}
+              disabled={user.id != id}
               defaultValue={profile?.biography}
             />
           </Box>
