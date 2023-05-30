@@ -1,5 +1,12 @@
 import Page from "../../shared/Page";
-import { Box, Paper, TextField, Typography, Avatar } from "@mui/material";
+import {
+  Box,
+  Paper,
+  TextField,
+  Typography,
+  Avatar,
+  IconButton,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import { useSnackbar } from "notistack";
@@ -29,8 +36,9 @@ const ProfilePage = () => {
     FetchProfile();
   }, []);
 
-  console.log(user);
-  console.log(id);
+  // console.log(user);
+  // console.log(id);
+  // console.log(profile);
 
   return (
     <Page title="Profile">
@@ -59,13 +67,23 @@ const ProfilePage = () => {
               flexDirection: "column",
             }}
           >
-            <Avatar
-              src={`${API_URL}users/${id}/profilePicture`}
-              sx={{
-                width: "300px",
-                height: "300px",
-              }}
-            />
+            <input accept="image/*" id="icon-button-file" type="file" />
+            <label htmlFor="icon-button-file">
+              <IconButton
+                color="primary"
+                aria-label="upload picture"
+                component="span"
+              >
+                <Avatar
+                  src={`${API_URL}users/${id}/profilePicture`}
+                  sx={{
+                    width: "300px",
+                    height: "300px",
+                  }}
+                ></Avatar>
+              </IconButton>
+            </label>
+
             <Typography variant="h3" mt={2}>
               {profile?.username}
             </Typography>
