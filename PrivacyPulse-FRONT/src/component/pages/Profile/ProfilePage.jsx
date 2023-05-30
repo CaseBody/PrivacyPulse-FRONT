@@ -30,7 +30,16 @@ const ProfilePage = () => {
 
     formData.append('File', file);
 
-    authFetch(`users/uploadProfileImage`, { method: "PUT",body: formData });
+    const response = authFetch(`users/uploadProfileImage`, { method: "PUT",body: formData });
+
+    if (response) {
+      enqueueSnackbar("Image has successfully been uploaded", { variant: "success" })
+      location.reload();
+    } else {
+      enqueueSnackbar("There was an error while uploading the image", {
+        variant: "error",
+      });
+    }
   };
 
   const FetchProfile = () => {
@@ -80,12 +89,21 @@ const ProfilePage = () => {
               flexDirection: "column",
             }}
           >
-            <input accept="image/*" id="icon-button-file" type="file" onChange={handleImageUpload}/>
+            {isLoggedIn && user.id === id && (
+              <input
+                accept="image/*"
+                id="icon-button-file"
+                type="file"
+                onChange={handleImageUpload}
+              />
+            )}
+
             <label htmlFor="icon-button-file">
               <IconButton
                 color="primary"
                 aria-label="upload picture"
                 component="span"
+                disabled={isLoggedIn && user.id === id ? false : true}
               >
                 <Avatar
                   src={`${API_URL}users/${id}/profilePicture`}
