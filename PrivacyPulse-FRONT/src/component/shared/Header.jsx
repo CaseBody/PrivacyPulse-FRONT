@@ -22,48 +22,49 @@ import { useNavigate } from "react-router-dom";
 import { API_URL } from "../../constants/links";
 import { useEffect } from "react";
 
-const pages = ["Chats", "Friends"];
-const settings = [
-	{ label: "Profile", link: "/profile" },
-	{ label: "Settings", link: "/settings" },
-	{ label: "Logout", link: "/logout" },
-];
 
 function Header() {
 	const { isLoggedIn, user, authFetch } = useAuth();
 	const navigate = useNavigate();
-
+	
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
 	const [anchorElUser, setAnchorElUser] = React.useState(null);
 	const [menuId, setMenuId] = useState(null);
-
+	
 	const [friendRequestNotifs, setFriendRequestNotifs] = useState(0);
-
+	
 	const handleOpenNavMenu = (event) => {
 		setAnchorElNav(event.currentTarget);
 	};
 	const handleOpenUserMenu = (event) => {
 		setAnchorElUser(event.currentTarget);
 	};
-
+	
 	const handleCloseNavMenu = () => {
 		setAnchorElNav(null);
 	};
-
+	
 	const handleCloseUserMenu = () => {
 		setAnchorElUser(null);
 	};
-
+	
 	const handleProfileMenuOpen = (event) => {
 		setAnchorElNav(event.currentTarget);
 	};
-
+	
 	const fetchNotifs = () => {
 		authFetch("friendRequests/open", { method: "GET"})
-			.then((r) => r.json())
-			.then(number => setFriendRequestNotifs(number));
+		.then((r) => r.json())
+		.then(number => setFriendRequestNotifs(number));
 	}
-
+	
+	const pages = ["Chats", "Friends"];
+	const settings = [
+		{ label: "Profile", link: `/users/${user.id}/profile` },
+		{ label: "Settings", link: "/settings" },
+		{ label: "Logout", link: "/logout" },
+	];
+	
 	useEffect(() => {
 		if (isLoggedIn)
 		{
