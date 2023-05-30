@@ -11,6 +11,7 @@ import RegisterPage from "./component/pages/Register/RegisterPage.jsx";
 import { SnackbarProvider } from "notistack";
 import LogoutPage from "./component/pages/Logout/LogoutPage.jsx";
 import FriendsPage from "./component/pages/Friends/FriendsPage.jsx";
+import ChatsPage from "./component/pages/Chats/ChatsPage.jsx";
 
 const darkTheme = createTheme({
 	palette: {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
 	{
 		path: "/friends",
 		element: <FriendsPage />,
+	},
+	{
+		path: "/chats",
+		element: <ChatsPage />,
 	},
 ]);
 
