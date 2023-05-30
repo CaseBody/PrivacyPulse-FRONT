@@ -34,7 +34,9 @@ const ProfilePage = () => {
 
     if (response) {
       enqueueSnackbar("Image has successfully been uploaded", { variant: "success" })
-      location.reload();
+      setTimeout(function () {
+        location.reload();
+      }, 500);
     } else {
       enqueueSnackbar("There was an error while uploading the image", {
         variant: "error",
