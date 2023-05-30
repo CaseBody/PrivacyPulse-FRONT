@@ -10,6 +10,7 @@ import LoginPage from "./component/pages/Login/LoginPage.jsx";
 import RegisterPage from "./component/pages/Register/RegisterPage.jsx";
 import { SnackbarProvider } from "notistack";
 import LogoutPage from "./component/pages/Logout/LogoutPage.jsx";
+import ProfilePage from "./component/pages/Profile/ProfilePage.jsx";
 import FriendsPage from "./component/pages/Friends/FriendsPage.jsx";
 
 const darkTheme = createTheme({
@@ -19,26 +20,30 @@ const darkTheme = createTheme({
 });
 
 const router = createBrowserRouter([
-	{
-		path: "/",
-		element: <App />,
-	},
-	{
-		path: "/login",
-		element: <LoginPage />,
-	},
-	{
-		path: "/register",
-		element: <RegisterPage />,
-	},
-	{
-		path: "/logout",
-		element: <LogoutPage />,
-	},
-	{
-		path: "/friends",
-		element: <FriendsPage />,
-	},
+  {
+    path: "/",
+    element: <App />,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
+    path: "/register",
+    element: <RegisterPage />,
+  },
+  {
+    path: "/logout",
+    element: <LogoutPage />,
+  },
+  {
+    path: "/users/:id/profile",
+    element: <ProfilePage />,
+  },
+  {
+    path: "/friends",
+    element: <FriendsPage />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
