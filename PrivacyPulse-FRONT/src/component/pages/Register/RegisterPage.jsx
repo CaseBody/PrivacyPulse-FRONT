@@ -1,4 +1,4 @@
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import Grid from "@mui/material/Grid";
 import Page from "../../shared/Page";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import KeyIcon from "@mui/icons-material/Key";
@@ -88,7 +88,7 @@ const RegisterPage = () => {
 							}}
 						>
 							<Grid container spacing={3} justifyContent={"center"} xs={12}>
-								<Grid xs={12} md={11} spacing={1}>
+								<Grid item xs={12} md={11} spacing={1}>
 									<TextField
 										label="Username"
 										fullWidth
@@ -107,7 +107,7 @@ const RegisterPage = () => {
 										}}
 									/>
 								</Grid>
-								<Grid xs={12} md={11}>
+								<Grid item xs={12} md={11}>
 									<TextField
 										label="Password"
 										type="password"
