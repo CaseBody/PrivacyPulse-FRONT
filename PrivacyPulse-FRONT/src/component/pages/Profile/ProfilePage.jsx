@@ -1,4 +1,5 @@
 import Page from "../../shared/Page";
+import Post from "./Post";
 import {
   Box,
   Paper,
@@ -12,6 +13,8 @@ import useAuth from "../../../hooks/useAuth";
 import { useSnackbar } from "notistack";
 import { useNavigate, useParams } from "react-router-dom";
 import { API_URL } from "../../../constants/links";
+import Tooltip from "@mui/material/Tooltip";
+
 
 const ProfilePage = () => {
   const { isLoggedIn, user, authFetch } = useAuth();
@@ -148,6 +151,38 @@ const ProfilePage = () => {
               disabled={user.id != id}
               defaultValue={profile?.biography}
             />
+          </Box>
+        </Paper>
+      </Box>
+
+      <Box
+        display={"flex"}
+        sx={{ height: "70vh", width: "100%" }}
+        justifyContent="center"
+        alignItems="center"
+        flexDirection="column"
+      >
+        <Paper
+          elevation={1}
+          sx={{
+            height: { xs: "100%", md: "75%" },
+            width: { xs: "100%", md: "50%" },
+          }}
+        >
+          <Box
+            display={"flex"}
+            sx={{ height: "20%", width: "100%" }}
+            justifyContent="center"
+          >
+            <Tooltip title={user.userName}>
+              <IconButton sx={{ p: 0 }}>
+                <Avatar src={`${API_URL}users/${user?.id}/profilePicture`} />
+              </IconButton>
+            </Tooltip>
+
+            <Typography>
+              {user.username}
+            </Typography>
           </Box>
         </Paper>
       </Box>
