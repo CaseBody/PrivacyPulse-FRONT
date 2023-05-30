@@ -71,7 +71,7 @@ const LoginPage = () => {
 					window.localStorage.setItem("user", json.user);
 					window.localStorage.setItem("userName", json.userName);
 					window.localStorage.setItem("privateKey", json.privateKey);
-					window.localStorage.setItem("publicKey", json.privateKey);
+					window.localStorage.setItem("publicKey", json.publicKey);
 					window.localStorage.setItem("token", json.token);
 
 					navigate("/");

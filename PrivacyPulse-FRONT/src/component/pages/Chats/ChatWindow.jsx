@@ -18,16 +18,26 @@ const ChatWindow = ({ chat }) => {
 
 	const [connection, setConnection] = useState(null);
 
-	const [messages, setMessages] = useState([
-		{ fromUserId: 10, sendDate: "24-05-2023", message: "Hallo, dit is een test bericht!!" },
-		{ fromUserId: 7, sendDate: "24-05-2023", message: "Mooi bericht, dit is een reactie op jouw bericht!!s" },
-		{ fromUserId: 7, sendDate: "24-05-2023", message: "Bababouy" },
-	]);
+	const [messages, setMessages] = useState([]);
 
 	useEffect(() => {
 		authFetch("chats/" + chat.id, { method: "GET" })
 			.then((r) => r.json())
-			.then((messages) => setMessages(messages));
+			.then((messages) => {
+				setMessages([]);
+
+				messages.forEach((message) => {
+					decryptMessage(message.message).then((decrypted) => {
+						setMessages((state) => [
+							...state,
+							{
+								fromUserId: message.fromUserId,
+								message: decrypted,
+							},
+						]);
+					});
+				});
+			});
 	}, [chat]);
 
 	useEffect(() => {
@@ -45,8 +55,17 @@ const ChatWindow = ({ chat }) => {
 
 					connection.send("Connect", chat.id, user.token);
 
-					connection.on("new", (message) => {
-						console.log(message);
+					connection.on("new", async (forUserId, cipherText, fromUserId) => {
+						if (forUserId == user.id) {
+							const message = await decryptMessage(cipherText);
+							setMessages((state) => [
+								...state,
+								{
+									fromUserId,
+									message,
+								},
+							]);
+						}
 					});
 				})
 				.catch((e) => console.log("Connection failed: ", e));
@@ -57,14 +76,10 @@ const ChatWindow = ({ chat }) => {
 		const incoming = await encryptIncomingMessage(message);
 		const outgoing = await encryptOutgoingMessage(message);
 
-		if (connection.connectionStarted) {
-			try {
-				await connection.send("SendMessage", chat.id, incoming, outgoing, user.token);
-			} catch (e) {
-				console.log(e);
-			}
-		} else {
-			alert("No connection to server yet.");
+		try {
+			await connection.send("SendMessage", chat.id, incoming, outgoing, user.token);
+		} catch (e) {
+			console.log(e);
 		}
 	};
 
@@ -82,7 +97,7 @@ const ChatWindow = ({ chat }) => {
 					<DeleteForeverIcon sx={{ width: 40, height: 30 }} />
 				</IconButton>
 			</Paper>
-			<Box sx={{ width: "100%", height: "100%", display: "flex", flexDirection: "column" }}>
+			<Box sx={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", overflowY: "scroll", padding: 2 }}>
 				{messages.map((m) => {
 					return (
 						<Paper
@@ -92,10 +107,11 @@ const ChatWindow = ({ chat }) => {
 								ml: 2,
 								padding: 1,
 								maxWidth: "40%",
+								wordWrap: "wrap",
 								alignSelf: user.id == m.fromUserId ? "flex-end" : "flex-start",
 							}}
 						>
-							<Typography>{m.message}</Typography>
+							<Typography sx={{ wordWrap: "break-word" }}>{m.message}</Typography>
 						</Paper>
 					);
 				})}
