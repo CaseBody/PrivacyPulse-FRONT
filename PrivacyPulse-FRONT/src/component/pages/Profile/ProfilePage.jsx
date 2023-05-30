@@ -19,6 +19,19 @@ const ProfilePage = () => {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    setSelectedImage(file);
+    console.log(file);
+
+    const formData = new FormData();
+
+    formData.append('File', file);
+
+    authFetch(`users/uploadProfileImage`, { method: "PUT",body: formData });
+  };
 
   const FetchProfile = () => {
     authFetch(`users/${id}/profile`, { method: "GET" })
@@ -67,7 +80,7 @@ const ProfilePage = () => {
               flexDirection: "column",
             }}
           >
-            <input accept="image/*" id="icon-button-file" type="file" />
+            <input accept="image/*" id="icon-button-file" type="file" onChange={handleImageUpload}/>
             <label htmlFor="icon-button-file">
               <IconButton
                 color="primary"
