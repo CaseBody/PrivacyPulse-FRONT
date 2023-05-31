@@ -6,9 +6,12 @@ import CreateChatModal from "./CreateChatModal";
 import { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import ChatWindow from "./ChatWindow";
+import DeleteChatModal from "./DeleteChatModal";
 
 const ChatsPage = () => {
 	const [modalOpen, setModalOpen] = useState(false);
+	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+
 	const [chats, setChats] = useState([]);
 	const [selectedChat, setSelectedChat] = useState(null);
 	const { authFetch } = useAuth();
@@ -29,14 +32,14 @@ const ChatsPage = () => {
 	return (
 		<>
 			<Page title="Chats">
-				<Box sx={{ width: "100%", height: "92.7vh", display: "flex" }}>
+				<Box sx={{ width: "100%", height: { xs: "91vh", md: "92.7vh" }, display: "flex" }}>
 					<Paper
 						elevation={6}
 						sx={{
-							width: "20%",
+							width: { xs: "100%", md: "20%" },
 							height: "100%",
 							borderRadius: 0,
-							display: "flex",
+							display: { xs: selectedChat ? "none" : "flex", md: "flex" },
 							flexDirection: "column",
 							borderRight: 0.5,
 						}}
@@ -72,10 +75,21 @@ const ChatsPage = () => {
 							</>
 						))}
 					</Paper>
-					<ChatWindow chat={selectedChat} />
+					<ChatWindow
+						chat={selectedChat}
+						openDeleteModal={() => setDeleteModalOpen(true)}
+						close={() => setSelectedChat(null)}
+					/>
 				</Box>
 			</Page>
 			<CreateChatModal isOpen={modalOpen} onClose={() => setModalOpen(false)} reFetchChats={fetchChats} />
+			<DeleteChatModal
+				isOpen={deleteModalOpen}
+				onClose={() => setDeleteModalOpen(false)}
+				reFetchChats={fetchChats}
+				setSelectedChat={setSelectedChat}
+				selectedChat={selectedChat}
+			/>
 		</>
 	);
 };

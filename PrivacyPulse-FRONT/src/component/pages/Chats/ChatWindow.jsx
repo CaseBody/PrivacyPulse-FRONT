@@ -2,12 +2,13 @@ import { Avatar, Box, IconButton, Paper, TextField, Typography } from "@mui/mate
 import { API_URL } from "../../../constants/links";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import SendIcon from "@mui/icons-material/Send";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useEncryption from "../../../hooks/useEncryption";
 import { HubConnectionBuilder } from "@microsoft/signalr";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
-const ChatWindow = ({ chat }) => {
+const ChatWindow = ({ chat, openDeleteModal, close }) => {
 	if (!chat) return;
 	const { user, authFetch } = useAuth();
 
@@ -20,6 +21,8 @@ const ChatWindow = ({ chat }) => {
 
 	const [messages, setMessages] = useState([]);
 
+	const messageEndRef = useRef(null);
+
 	useEffect(() => {
 		authFetch("chats/" + chat.id, { method: "GET" })
 			.then((r) => r.json())
@@ -27,20 +30,38 @@ const ChatWindow = ({ chat }) => {
 				setMessages([]);
 
 				messages.forEach((message) => {
-					decryptMessage(message.message).then((decrypted) => {
+					if (message.type == "SystemMessage") {
 						setMessages((state) => [
 							...state,
 							{
-								fromUserId: message.fromUserId,
-								message: decrypted,
+								isSystem: true,
+								message: message.text,
 							},
 						]);
-					});
+					} else {
+						decryptMessage(message.message).then((decrypted) => {
+							setMessages((state) => [
+								...state,
+								{
+									fromUserId: message.fromUserId,
+									message: decrypted,
+									sendDate: message.sendDate,
+									isSystem: false,
+								},
+							]);
+						});
+					}
 				});
+
+				setTimeout(() => {
+					messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+				}, 200);
 			});
 	}, [chat]);
 
 	useEffect(() => {
+		connection?.stop();
+
 		const newConnection = new HubConnectionBuilder().withUrl(`${API_URL}hubs/chat`).withAutomaticReconnect().build();
 
 		setConnection(newConnection);
@@ -51,11 +72,9 @@ const ChatWindow = ({ chat }) => {
 			connection
 				.start()
 				.then((result) => {
-					console.log("Connected!");
-
 					connection.send("Connect", chat.id, user.token);
 
-					connection.on("new", async (forUserId, cipherText, fromUserId) => {
+					connection.on("new", async (forUserId, cipherText, fromUserId, sendDate) => {
 						if (forUserId == user.id) {
 							const message = await decryptMessage(cipherText);
 							setMessages((state) => [
@@ -63,8 +82,13 @@ const ChatWindow = ({ chat }) => {
 								{
 									fromUserId,
 									message,
+									sendDate,
 								},
 							]);
+
+							setTimeout(() => {
+								messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+							}, 100);
 						}
 					});
 				})
@@ -77,6 +101,7 @@ const ChatWindow = ({ chat }) => {
 		const outgoing = await encryptOutgoingMessage(message);
 
 		try {
+			setMessage("");
 			await connection.send("SendMessage", chat.id, incoming, outgoing, user.token);
 		} catch (e) {
 			console.log(e);
@@ -84,37 +109,60 @@ const ChatWindow = ({ chat }) => {
 	};
 
 	return (
-		<Box sx={{ width: "80%", height: "100%", display: "flex", flexDirection: "column" }}>
+		<Box sx={{ width: { xs: "100%", md: "80%" }, height: "100%", display: "flex", flexDirection: "column" }}>
 			<Paper
 				elevation={12}
 				sx={{ width: "100%", height: 72, borderRadius: 0, display: "flex", justifyContent: "space-between" }}
 			>
 				<Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+					<IconButton sx={{ display: { xs: "", md: "none" } }} onClick={close}>
+						<ArrowBackIosNewIcon sx={{ width: 40, height: 40 }} />
+					</IconButton>
 					<Avatar sx={{ width: 50, height: 50, margin: 1 }} src={`${API_URL}users/${chat.userId}/profilePicture`} />
 					<Typography sx={{ fontSize: 18, fontWeight: "bold" }}>{chat.username}</Typography>
 				</Box>
-				<IconButton aria-label="delete" color="primary.dark" onClick={() => AcceptRequest(request.id)}>
+				<IconButton aria-label="delete" color="primary.dark" onClick={() => openDeleteModal()}>
 					<DeleteForeverIcon sx={{ width: 40, height: 30 }} />
 				</IconButton>
 			</Paper>
-			<Box sx={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", overflowY: "scroll", padding: 2 }}>
+			<Box
+				sx={{
+					width: "100%",
+					height: "100%",
+					display: "flex",
+					flexDirection: "column",
+					overflowY: "scroll",
+					padding: 2,
+					overflowX: "hidden",
+					"&::-webkit-scrollbar": { display: "none" },
+				}}
+			>
 				{messages.map((m) => {
 					return (
 						<Paper
+							elevation={m.isSystem ? 16 : 3}
 							sx={{
 								mt: 1,
 								mr: 2,
 								ml: 2,
 								padding: 1,
-								maxWidth: "40%",
+								maxWidth: m.isSystem ? "65%" : "40%",
 								wordWrap: "wrap",
-								alignSelf: user.id == m.fromUserId ? "flex-end" : "flex-start",
+								alignSelf: m.isSystem ? "center" : user.id == m.fromUserId ? "flex-end" : "flex-start",
+								borderTopLeftRadius: user.id == m.fromUserId || m.isSystem ? "auto" : 15,
+								borderTopRightRadius: user.id != m.fromUserId || m.isSystem ? "auto" : 15,
 							}}
 						>
 							<Typography sx={{ wordWrap: "break-word" }}>{m.message}</Typography>
+							{!m.isSystem && (
+								<Typography sx={{ fontSize: 10, width: "100%", textAlign: user.id != m.fromUserId ? "start" : "end" }}>
+									{new Date(m.sendDate).toLocaleDateString(undefined, { hour: "2-digit", minute: "2-digit" })}
+								</Typography>
+							)}
 						</Paper>
 					);
 				})}
+				<div ref={messageEndRef}></div>
 			</Box>
 			<Paper
 				elevation={12}
@@ -129,15 +177,18 @@ const ChatWindow = ({ chat }) => {
 				}}
 			>
 				<TextField
+					value={message}
 					onChange={(e) => setMessage(e.target.value)}
 					placeholder="Send a message.."
 					sx={{ width: "60%" }}
+					onKeyUp={(ev) => {
+						if (ev.key === "Enter") {
+							sendMessage(message);
+							ev.preventDefault();
+						}
+					}}
 				></TextField>
-				<IconButton
-					aria-label="delete"
-					color="primary.dark"
-					onClick={() => sendMessage(message).catch((e) => console.log(e))}
-				>
+				<IconButton aria-label="delete" color="primary.dark" onClick={() => sendMessage(message)}>
 					<SendIcon sx={{ width: 30, height: 30 }} />
 				</IconButton>
 			</Paper>
