@@ -6,9 +6,12 @@ import {
   CircularProgress,
   IconButton,
   Paper,
+  TextField,
   Typography,
 } from "@mui/material";
 import Page from "../../shared/Page";
+import AddPost from "./AddPost";
+import AddPostModal from "./AddPostModal";
 import useAuth from "../../../hooks/useAuth";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
@@ -52,7 +55,10 @@ const Post = () => {
         >
           <Tooltip title={user.userName}>
             <IconButton sx={{ p: 0 }}>
-              <Avatar src={`${API_URL}users/${user?.id}/profilePicture`} />
+              <Avatar
+                src={`${API_URL}users/${user?.id}/profilePicture`}
+                sx={{ marginRight: "10px" }}
+              />
             </IconButton>
           </Tooltip>
 
@@ -61,7 +67,7 @@ const Post = () => {
           </Typography>
         </Box>
 
-        <Box sx={{ height: "55%", width: "100%", backgroundColor: "blue" }}>
+        <Box sx={{ height: "57.5%", width: "100%" }}>
           <img
             src={postImg}
             style={{ height: "100%", width: "100%", objectFit: "cover" }}
@@ -84,15 +90,22 @@ const Post = () => {
           alignItems="center"
         >
           <Box
+            display={"flex"}
+            sx={{
+              height: { xs: "70%", md: "85%", xl: "100%" },
+              width: { xs: "10%", md: "7.5%", xl: "5.5%" },
+              marginLeft: "12.5px",
+              marginBottom: "10px",
+            }}
+            alignItems="center"
             onClick={toggleHeart}
-            sx={{ height: "100%", width: { xs: "12.5%", md: "8%", xl: "5.5%" } }}
           >
             {liked ? (
               <Tooltip title="Liked">
                 <img
                   src={redHeart}
                   alt="red-heart"
-                  style={{ height: "100%", width: "100%" }}
+                  style={{ height: "80%", width: "80%", marginRight: "7.5px" }}
                 />
               </Tooltip>
             ) : (
@@ -100,27 +113,26 @@ const Post = () => {
                 <img
                   src={heart}
                   alt="black-heart"
-                  style={{ height: "100%", width: "100%" }}
+                  style={{ height: "80%", width: "80%", marginRight: "7.5px" }}
                 />
               </Tooltip>
             )}
+            <Tooltip title="Add Comment">
+              <img
+                src={chatImg}
+                style={{ height: "60%", width: "80%", marginRight: "12.5px" }}
+                alt="chatImg"
+              />
+            </Tooltip>
+
+            <Tooltip title="Send">
+              <img
+                src={msgImg}
+                style={{ height: "60%", width: "80%" }}
+                alt="msgImg"
+              />
+            </Tooltip>
           </Box>
-
-          <Tooltip title="Add Comment">
-            <img
-              src={chatImg}
-              style={{ height: "80%", width: "5%" }}
-              alt="chatImg"
-            />
-          </Tooltip>
-
-          <Tooltip title="Send">
-            <img
-              src={msgImg}
-              style={{ height: "80%", width: "5%" }}
-              alt="msgImg"
-            />
-          </Tooltip>
         </Box>
       </Paper>
     </Box>

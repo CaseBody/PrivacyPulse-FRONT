@@ -1,5 +1,6 @@
 import Page from "../../shared/Page";
 import Post from "./Post";
+import AddPost from "./AddPost";
 import {
   Box,
   Paper,
@@ -61,10 +62,6 @@ const ProfilePage = () => {
 
     FetchProfile();
   }, []);
-
-  // console.log(user);
-  // console.log(id);
-  // console.log(profile);
 
   return (
     <Page title="Profile">
@@ -154,7 +151,10 @@ const ProfilePage = () => {
         </Paper>
       </Box>
 
+      <AddPost />
+
       <Post />
+
     </Page>
   );
 };
