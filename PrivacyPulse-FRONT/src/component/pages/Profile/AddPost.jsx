@@ -48,6 +48,7 @@ const AddPost = ({ isOpen, onClose }) => {
             <TextField sx={{ width: "50%" }}></TextField>
             <Button
               variant="outlined"
+              size="large"
               startIcon={<AddIcon />}
               onClick={() => setModalOpen(true)}
             >
