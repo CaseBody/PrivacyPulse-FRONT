@@ -36,7 +36,7 @@ const Post = () => {
   return (
     <Box
       display={"flex"}
-      sx={{ height: "100%", width: "100%" }}
+      sx={{ height: "100%", width: "100%", marginTop: { xs: 6, md: 0 }}}
       justifyContent="center"
       alignItems="center"
       flexDirection="column"

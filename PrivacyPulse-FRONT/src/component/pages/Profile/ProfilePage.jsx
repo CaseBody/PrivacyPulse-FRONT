@@ -75,12 +75,12 @@ const ProfilePage = () => {
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
-        sx={{ marginTop: { xs: 0, md: 6 } }}
+        sx={{ marginTop: { xs: 0, md: 2 } }}
       >
         <Box
           display={"flex"}
           sx={{ height: "90vh", width: "100%" }}
-          justifyContent="center"
+          justifyContent="space-evenly"
           alignItems="center"
           flexDirection="column"
         >

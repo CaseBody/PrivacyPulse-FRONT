@@ -26,7 +26,7 @@ const AddPost = ({ isOpen, onClose }) => {
       <Box
         display={"flex"}
         sx={{
-          height: "100%",
+          height: "10vh",
           width: "100%",
         }}
         justifyContent="center"
@@ -35,13 +35,13 @@ const AddPost = ({ isOpen, onClose }) => {
         <Paper
           elevation={6}
           sx={{
-            height: { xs: "100%", md: "45%" },
+            height: { xs: "150%", md: "80%" },
             width: { xs: "100%", md: "50%" },
           }}
         >
           <Box
             display={"flex"}
-            sx={{ height: "10vh", width: "100%" }}
+            sx={{ height: "100%", width: "100%" }}
             justifyContent="space-evenly"
             alignItems="center"
           >
