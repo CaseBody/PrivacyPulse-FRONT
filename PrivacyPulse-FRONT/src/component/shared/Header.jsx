@@ -196,7 +196,7 @@ function Header() {
 							<>
 								<Tooltip title="Chats">
 									<IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={() => navigate("/chats")}>
-										<Badge badgeContent={4} color="error">
+										<Badge color="error">
 											<ChatIcon />
 										</Badge>
 									</IconButton>
