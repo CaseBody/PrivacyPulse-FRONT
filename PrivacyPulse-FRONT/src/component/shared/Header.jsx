@@ -22,13 +22,6 @@ import { useNavigate } from "react-router-dom";
 import { API_URL } from "../../constants/links";
 import { useEffect } from "react";
 
-const pages = ["Chats", "Friends"];
-const settings = [
-	{ label: "Profile", link: "/profile" },
-	{ label: "Settings", link: "/settings" },
-	{ label: "Logout", link: "/logout" },
-];
-
 function Header() {
 	const { isLoggedIn, user, authFetch } = useAuth();
 	const navigate = useNavigate();
@@ -63,6 +56,13 @@ function Header() {
 			.then((r) => r.json())
 			.then((number) => setFriendRequestNotifs(number));
 	};
+
+	const pages = ["Chats", "Friends"];
+	const settings = [
+		{ label: "Profile", link: `/users/${user.id}/profile` },
+		{ label: "Settings", link: "/settings" },
+		{ label: "Logout", link: "/logout" },
+	];
 
 	useEffect(() => {
 		if (isLoggedIn) {
@@ -189,14 +189,44 @@ function Header() {
 						Privacy
 					</Typography>
 
-					<Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
-
 					<Box sx={{ display: { xs: "none", md: "flex" } }}>
 						{isLoggedIn && (
 							<>
 								<Tooltip title="Chats">
 									<IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={() => navigate("/chats")}>
 										<Badge color="error">
+											<ChatIcon />
+										</Badge>
+									</IconButton>
+								</Tooltip>
+								<Tooltip title="Friends">
+									<IconButton size="large" color="inherit" onClick={() => navigate("/friends")}>
+										<Badge badgeContent={friendRequestNotifs} color="error">
+											<PeopleIcon />
+										</Badge>
+									</IconButton>
+								</Tooltip>
+							</>
+						)}
+						<IconButton
+							size="large"
+							edge="end"
+							aria-label="account of current user"
+							aria-controls={menuId}
+							aria-haspopup="true"
+							onClick={handleProfileMenuOpen}
+							color="inherit"
+						>
+							{/* <AccountCircle /> */}
+						</IconButton>
+					</Box>
+
+					<Box sx={{ display: { xs: "none", md: "flex" } }}>
+						{isLoggedIn && (
+							<>
+								<Tooltip title="Chats">
+									<IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={() => navigate("/chats")}>
+										<Badge badgeContent={4} color="error">
 											<ChatIcon />
 										</Badge>
 									</IconButton>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Typography from "@mui/material/Typography";
 import "./App.css";
 import useAuth from "./hooks/useAuth";
 import Page from "./component/shared/Page";
@@ -10,14 +11,14 @@ function App() {
 
 	return (
 		<Page>
-			<p className="read-the-docs">This is the home page.</p>
+			<Typography className="read-the-docs">This is the home page.</Typography>
 			{isLoggedIn && (
-				<p>
+				<Typography>
 					<b>Welcome back {user.userName}</b>
-				</p>
+				</Typography>
 			)}
-			<p onClick={() => navigate("/register")}>Register</p>
-			<p onClick={() => navigate("/login")}>Login</p>
+			<Typography onClick={() => navigate("/register")}>Register</Typography>
+			<Typography onClick={() => navigate("/login")}>Login</Typography>
 		</Page>
 	);
 }

@@ -10,6 +10,7 @@ import LoginPage from "./component/pages/Login/LoginPage.jsx";
 import RegisterPage from "./component/pages/Register/RegisterPage.jsx";
 import { SnackbarProvider } from "notistack";
 import LogoutPage from "./component/pages/Logout/LogoutPage.jsx";
+import ProfilePage from "./component/pages/Profile/ProfilePage.jsx";
 import FriendsPage from "./component/pages/Friends/FriendsPage.jsx";
 import ChatsPage from "./component/pages/Chats/ChatsPage.jsx";
 
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
 	{
 		path: "/chats",
 		element: <ChatsPage />,
+	},
+	{
+		path: "/users/:id/profile",
+		element: <ProfilePage />,
 	},
 ]);
 
