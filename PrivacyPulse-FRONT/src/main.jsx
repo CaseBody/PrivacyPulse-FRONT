@@ -13,6 +13,7 @@ import LogoutPage from "./component/pages/Logout/LogoutPage.jsx";
 import ProfilePage from "./component/pages/Profile/ProfilePage.jsx";
 import FriendsPage from "./component/pages/Friends/FriendsPage.jsx";
 import ChatsPage from "./component/pages/Chats/ChatsPage.jsx";
+import SettingsPage from "./component/pages/Settings/SettingsPage.jsx";
 
 const darkTheme = createTheme({
 	palette: {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
 	{
 		path: "/users/:id/profile",
 		element: <ProfilePage />,
+	},
+	{
+		path: "/settings",
+		element: <SettingsPage />,
 	},
 ]);
 

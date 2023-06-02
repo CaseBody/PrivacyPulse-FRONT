@@ -22,13 +22,6 @@ import { useNavigate } from "react-router-dom";
 import { API_URL } from "../../constants/links";
 import { useEffect } from "react";
 
-const pages = ["Chats", "Friends"];
-const settings = [
-	{ label: "Profile", link: "/profile" },
-	{ label: "Settings", link: "/settings" },
-	{ label: "Logout", link: "/logout" },
-];
-
 function Header() {
 	const { isLoggedIn, user, authFetch } = useAuth();
 	const navigate = useNavigate();
@@ -38,6 +31,13 @@ function Header() {
 	const [menuId, setMenuId] = useState(null);
 
 	const [friendRequestNotifs, setFriendRequestNotifs] = useState(0);
+
+	const pages = ["Chats", "Friends"];
+	const settings = [
+		{ label: "Profile", link: `/users/${user.id}/profile` },
+		{ label: "Settings", link: "/settings" },
+		{ label: "Logout", link: "/logout" },
+	];
 
 	const handleOpenNavMenu = (event) => {
 		setAnchorElNav(event.currentTarget);
