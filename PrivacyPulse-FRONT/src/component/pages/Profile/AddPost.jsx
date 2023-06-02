@@ -5,6 +5,7 @@ import {
   Typography,
   Avatar,
   IconButton,
+  Button,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useEffect, useState } from "react";
@@ -24,31 +25,34 @@ const AddPost = ({ isOpen, onClose }) => {
     return (
       <Box
         display={"flex"}
-        sx={{ height: "15vh", width: "100%" }}
+        sx={{
+          height: "100%",
+          width: "100%",
+        }}
         justifyContent="center"
         alignItems="center"
       >
         <Paper
           elevation={6}
           sx={{
-            height: { xs: "100%", md: "75%" },
+            height: { xs: "100%", md: "45%" },
             width: { xs: "100%", md: "50%" },
           }}
         >
           <Box
             display={"flex"}
-            sx={{ height: "100%", width: "100%" }}
+            sx={{ height: "10vh", width: "100%" }}
             justifyContent="space-evenly"
             alignItems="center"
           >
             <TextField></TextField>
-            <IconButton
-              aria-label="add"
-              color="primary.dark"
+            <Button
+              variant="outlined"
+              startIcon={<AddIcon />}
               onClick={() => setModalOpen(true)}
             >
-              <AddIcon sx={{ width: 45, height: 45 }} />
-            </IconButton>
+              <Typography>Add Post</Typography>
+            </Button>
           </Box>
         </Paper>
 

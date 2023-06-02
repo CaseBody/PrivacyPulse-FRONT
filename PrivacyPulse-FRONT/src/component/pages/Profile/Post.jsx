@@ -4,6 +4,7 @@ import {
   Card,
   CardActionArea,
   CircularProgress,
+  Divider,
   IconButton,
   Paper,
   TextField,
@@ -35,11 +36,12 @@ const Post = () => {
   return (
     <Box
       display={"flex"}
-      sx={{ height: "70vh", width: "100%" }}
+      sx={{ height: "100%", width: "100%" }}
       justifyContent="center"
       alignItems="center"
       flexDirection="column"
     >
+      <Divider sx={{ width: "50%", marginTop: "30px", marginBottom: "30px" }}></Divider>
       <Paper
         elevation={1}
         sx={{
@@ -49,7 +51,7 @@ const Post = () => {
       >
         <Box
           display={"flex"}
-          sx={{ height: "12.5%", width: "100%" }}
+          sx={{ height: "8.75vh", width: "100%" }}
           justifyContent="center"
           alignItems="center"
         >
@@ -67,7 +69,7 @@ const Post = () => {
           </Typography>
         </Box>
 
-        <Box sx={{ height: "57.5%", width: "100%" }}>
+        <Box sx={{ height: "40vh", width: "100%" }}>
           <img
             src={postImg}
             style={{ height: "100%", width: "100%", objectFit: "cover" }}
@@ -75,7 +77,7 @@ const Post = () => {
           />
         </Box>
 
-        <Box sx={{ height: "20%", width: "100%" }}>
+        <Box sx={{ height: "15vh", width: "100%" }}>
           <Typography sx={{ height: "100%", width: "100%", p: 2 }}>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo
             exercitationem labore qui corporis error unde ratione excepturi
@@ -86,7 +88,7 @@ const Post = () => {
 
         <Box
           display={"flex"}
-          sx={{ height: "10%", width: "100%" }}
+          sx={{ height: "5vh", width: "100%" }}
           alignItems="center"
         >
           <Box

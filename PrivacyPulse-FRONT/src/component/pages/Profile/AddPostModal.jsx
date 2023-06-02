@@ -6,7 +6,9 @@ import {
   Avatar,
   IconButton,
   Modal,
+  Tooltip,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import { useSnackbar } from "notistack";
@@ -39,12 +41,14 @@ const AddPostModal = ({ isOpen, onClose }) => {
           alignItems={"center"}
         >
           <Typography variant="h3">Add Post</Typography>
+          <Tooltip title="Close Modal">
+            <IconButton sx={{ p: 0, width: 48, height: 48 }} size="large" onClick={onClose}>
+              <CloseIcon />
+            </IconButton>
+          </Tooltip>
         </Box>
 
-        <TextField
-          label="Title"
-          placeholder="Title of you're post..."
-        />
+        <TextField label="Title" placeholder="Title of you're post..." />
 
         <Box
           width="100%"
@@ -53,8 +57,7 @@ const AddPostModal = ({ isOpen, onClose }) => {
             "&::-webkit-scrollbar": {},
           }}
         >
-          <Box display="flex" flexWrap="wrap" gap={1}>
-          </Box>
+          <Box display="flex" flexWrap="wrap" gap={1}></Box>
         </Box>
       </Paper>
     </Modal>
