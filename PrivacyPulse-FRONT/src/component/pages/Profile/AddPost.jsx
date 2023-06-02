@@ -45,7 +45,7 @@ const AddPost = ({ isOpen, onClose }) => {
             justifyContent="space-evenly"
             alignItems="center"
           >
-            <TextField></TextField>
+            <TextField sx={{ width: "50%" }}></TextField>
             <Button
               variant="outlined"
               startIcon={<AddIcon />}

@@ -48,7 +48,7 @@ const AddPostModal = ({ isOpen, onClose }) => {
           </Tooltip>
         </Box>
 
-        <TextField label="Title" placeholder="Title of you're post..." />
+        <TextField label="Title" placeholder="Title of you're post..." ></TextField>
 
         <Box
           width="100%"
