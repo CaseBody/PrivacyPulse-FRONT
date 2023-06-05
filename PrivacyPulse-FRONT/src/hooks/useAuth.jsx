@@ -8,12 +8,13 @@ const useAuth = () => {
 	const privateKey = window.localStorage.getItem("privateKey");
 	const publicKey = window.localStorage.getItem("publicKey");
 
-	const authFetch = (url, body, useCustomUrl) => {
+	const authFetch = (url, body, useCustomUrl, noContentType) => {
+		const defaultHeader = noContentType
+			? { Accept: "application/json" }
+			: { Accept: "application/json", "Content-Type": "application/json" };
 		return fetch(useCustomUrl ? url : `${API_URL}${url}`, {
 			...body,
-			headers: body?.headers
-				? { Accept: "application/json", ...body.headers, Bearer: token }
-				: { Accept: "application/json", Bearer: token },
+			headers: body?.headers ? { ...defaultHeader, ...body.headers, Bearer: token } : { ...defaultHeader, Bearer: token },
 		}).then((response) => {
 			if (response.status == 401) {
 				window.localStorage.removeItem("userName");
