@@ -10,14 +10,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import Page from "../../shared/Page";
-import AddPost from "./AddPost";
-import AddPostModal from "./AddPostModal";
 import useAuth from "../../../hooks/useAuth";
-import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { API_URL } from "../../../constants/links";
-import { useSnackbar } from "notistack";
 import Tooltip from "@mui/material/Tooltip";
 import postImg from "../../../../src/assets/Justin.jpeg";
 import chatImg from "../../../../src/assets/chat.png";
@@ -41,7 +36,9 @@ const Post = () => {
       alignItems="center"
       flexDirection="column"
     >
-      <Divider sx={{ width: "50%", marginTop: "30px", marginBottom: "30px" }}></Divider>
+      <Divider
+        sx={{ width: "50%", marginTop: "30px", marginBottom: "30px" }}
+      ></Divider>
       <Paper
         elevation={1}
         sx={{
@@ -57,14 +54,13 @@ const Post = () => {
         >
           <Tooltip title={user.userName}>
             <IconButton sx={{ p: 0 }}>
-              <Avatar
-                src={`${API_URL}users/${user?.id}/profilePicture`}
-                sx={{ marginRight: "10px" }}
-              />
+              <Avatar src={`${API_URL}users/${user?.id}/profilePicture`} />
             </IconButton>
           </Tooltip>
 
-          <Typography sx={{ fontSize: 20, fontWeight: "bold" }}>
+          <Typography
+            sx={{ fontSize: 20, fontWeight: "bold", marginLeft: "10px" }}
+          >
             {user.userName}
           </Typography>
         </Box>

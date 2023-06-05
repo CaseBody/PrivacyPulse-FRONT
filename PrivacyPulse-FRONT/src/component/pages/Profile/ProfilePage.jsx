@@ -1,6 +1,5 @@
 import Page from "../../shared/Page";
 import Post from "./Post";
-import AddPost from "./AddPost";
 import {
   Box,
   Paper,
@@ -9,12 +8,15 @@ import {
   Avatar,
   IconButton,
   Divider,
+  Button,
 } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import { useSnackbar } from "notistack";
 import { useNavigate, useParams } from "react-router-dom";
 import { API_URL } from "../../../constants/links";
+import AddPostModal from "../Profile/AddPostModal";
 
 const ProfilePage = () => {
   const { isLoggedIn, user, authFetch } = useAuth();
@@ -23,6 +25,7 @@ const ProfilePage = () => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -75,7 +78,7 @@ const ProfilePage = () => {
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
-        sx={{ marginTop: { xs: 0, md: 2 } }}
+        sx={{ marginTop: { xs: 0, md: 2.5 } }}
       >
         <Box
           display={"flex"}
@@ -87,7 +90,7 @@ const ProfilePage = () => {
           <Paper
             elevation={6}
             sx={{
-              height: { xs: "100%", md: "75%" },
+              height: { xs: "100%", md: "90%" },
               width: { xs: "100%", md: "50%" },
             }}
           >
@@ -102,6 +105,25 @@ const ProfilePage = () => {
                 flexDirection: "column",
               }}
             >
+              <Box 
+                display={"flex"}
+                sx={{ width: "100%", flexDirection: "column", alignItems: "flex-end" }}
+              >
+                <Button
+                  variant="outlined"
+                  size="large"
+                  startIcon={<AddIcon />}
+                  onClick={() => setModalOpen(true)}
+                >
+                  <Typography>Add Post</Typography>
+                </Button>
+
+                <AddPostModal
+                  isOpen={modalOpen}
+                  onClose={() => setModalOpen(false)}
+                />
+              </Box>
+
               {isLoggedIn && user.id === id && (
                 <input
                   style={{ display: "none" }}
@@ -129,7 +151,7 @@ const ProfilePage = () => {
                 </IconButton>
               </label>
 
-              <Typography variant="h3" mt={1} mb={5}>
+              <Typography variant="h3" mt={5} mb={5}>
                 {profile?.username}
               </Typography>
             </Box>
@@ -162,7 +184,7 @@ const ProfilePage = () => {
               />
             </Box>
           </Paper>
-          <AddPost />
+          {/* <AddPost /> */}
         </Box>
 
         <Post />
