@@ -42,23 +42,28 @@ const AddPostModal = ({ isOpen, onClose }) => {
         >
           <Typography variant="h3">Add Post</Typography>
           <Tooltip title="Close Modal">
-            <IconButton sx={{ p: 0, width: 48, height: 48 }} size="large" onClick={onClose}>
+            <IconButton
+              sx={{ p: 0, width: 48, height: 48 }}
+              size="large"
+              onClick={onClose}
+            >
               <CloseIcon />
             </IconButton>
           </Tooltip>
         </Box>
 
-        <TextField label="Title" placeholder="Title of you're post..." ></TextField>
+        <input
+          accept="image/*"
+          id="icon-button-file"
+          type="file"
+          // value={Image}
+        />
 
-        <Box
-          width="100%"
-          sx={{
-            overflowX: "hidden",
-            "&::-webkit-scrollbar": {},
-          }}
-        >
-          <Box display="flex" flexWrap="wrap" gap={1}></Box>
-        </Box>
+        <TextField
+          label="Title"
+          placeholder="Title of you're post..."
+          // value={Body}
+        ></TextField>
       </Paper>
     </Modal>
   );
