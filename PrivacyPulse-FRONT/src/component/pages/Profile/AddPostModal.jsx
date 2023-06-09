@@ -16,6 +16,21 @@ import { useNavigate, useParams } from "react-router-dom";
 import { API_URL } from "../../../constants/links";
 
 const AddPostModal = ({ isOpen, onClose }) => {
+  const { authFetch } = useAuth();
+  const [postImage, setPostImage] = useState(null);
+  const [postBody, setPostBody] = useState('');
+
+  const CreatePost = () => {
+    const postData = new FormData();
+    postData.append("body", postBody);
+    postData.append("image", postImage);
+
+    authFetch("posts/create", {
+      method: "POST",
+      body: postData,
+    });
+  };
+
   return (
     <Modal
       open={isOpen}
@@ -56,14 +71,19 @@ const AddPostModal = ({ isOpen, onClose }) => {
           accept="image/*"
           id="icon-button-file"
           type="file"
-          // value={Image}
+          onChange={(event) => {
+            const file = event.target.files[0];
+            setPostImage(file);
+          }}
         />
 
         <TextField
-          label="Title"
-          placeholder="Title of you're post..."
-          // value={Body}
+          label="Body"
+          placeholder="Body of you're post..."
+          onChange={(e) => setPostBody(e.target.value)}
         ></TextField>
+
+        <button onClick={CreatePost}>Submit</button>
       </Paper>
     </Modal>
   );

@@ -30,7 +30,6 @@ const ProfilePage = () => {
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     setSelectedImage(file);
-    console.log(file);
 
     const formData = new FormData();
 
@@ -184,7 +183,6 @@ const ProfilePage = () => {
               />
             </Box>
           </Paper>
-          {/* <AddPost /> */}
         </Box>
 
         <Post />
