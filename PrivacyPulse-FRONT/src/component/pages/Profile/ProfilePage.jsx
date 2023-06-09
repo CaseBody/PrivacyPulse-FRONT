@@ -26,6 +26,7 @@ const ProfilePage = () => {
   const [profile, setProfile] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [postsData, setPostsData] = useState([]);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -60,6 +61,24 @@ const ProfilePage = () => {
       .then((data) => setProfile(data));
   };
 
+  const FetchPosts = () => {
+    authFetch("posts/user", {
+      method: "GET",
+      Headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((data) => {
+        const allPostData = data;
+        setPostsData(allPostData);
+      })
+      .catch((error) => {
+        console.log("Error fetching posts data");
+      });
+  }
+
+  console.log(postsData);
+
   const UpdateBio = (biography) => {
     authFetch(`users/updateBio?bio=${biography}`, { method: "PUT" });
   };
@@ -68,6 +87,7 @@ const ProfilePage = () => {
     if (!isLoggedIn) navigate("/login");
 
     FetchProfile();
+    FetchPosts();
   }, []);
 
   return (
