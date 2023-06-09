@@ -15,7 +15,7 @@ import useAuth from "../../../hooks/useAuth";
 import { enqueueSnackbar, useSnackbar } from "notistack";
 import { useNavigate, useParams } from "react-router-dom";
 import SendIcon from "@mui/icons-material/Send";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
+import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 
 const AddPostModal = ({ isOpen, onClose }) => {
   const { authFetch } = useAuth();
@@ -104,15 +104,15 @@ const AddPostModal = ({ isOpen, onClose }) => {
           />
           <label htmlFor="button-post-image">
             <Button
-              variant="contained"
+              variant="outlined"
               component="span"
               size="large"
               sx={{
                 width: "30%",
               }}
-              endIcon={<AttachFileIcon />}
+              endIcon={<PhotoCameraIcon />}
             >
-              Upload File
+              Upload Image
             </Button>
           </label>
           {fileName && <Typography mt={3}>Selected file: {fileName}</Typography>}
@@ -127,7 +127,7 @@ const AddPostModal = ({ isOpen, onClose }) => {
         ></TextField>
 
         <Button
-          variant="contained"
+          variant="outlined"
           size="large"
           sx={{
             width: "30%",
