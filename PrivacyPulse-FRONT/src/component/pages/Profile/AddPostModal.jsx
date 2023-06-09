@@ -11,7 +11,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
-import { useSnackbar } from "notistack";
+import { enqueueSnackbar, useSnackbar } from "notistack";
 import { useNavigate, useParams } from "react-router-dom";
 import { API_URL } from "../../../constants/links";
 
@@ -21,14 +21,34 @@ const AddPostModal = ({ isOpen, onClose }) => {
   const [postBody, setPostBody] = useState('');
 
   const CreatePost = () => {
-    const postData = new FormData();
-    postData.append("body", postBody);
-    postData.append("image", postImage);
+    if (postImage && postBody) {
+      const postData = new FormData();
+      postData.append("body", postBody);
+      postData.append("image", postImage);
 
-    authFetch("posts/create", {
-      method: "POST",
-      body: postData,
-    });
+      authFetch("posts/create", {
+        method: "POST",
+        body: postData,
+      })
+      .then((response) => {
+        if (response) {
+          enqueueSnackbar("Post has successfully been created", {
+            variant: "success",
+          });
+          setTimeout(function () {
+            location.reload();
+          }, 500);
+        } else {
+          enqueueSnackbar("There was an error while creating the post", {
+            variant: "error",
+          });
+        }
+      });
+    } else {
+      enqueueSnackbar("Fill in all the required fields", {
+        variant: "error",
+      });
+    }
   };
 
   return (
