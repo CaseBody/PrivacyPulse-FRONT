@@ -7,17 +7,20 @@ import {
   IconButton,
   Modal,
   Tooltip,
+  Button,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import { enqueueSnackbar, useSnackbar } from "notistack";
 import { useNavigate, useParams } from "react-router-dom";
-import { API_URL } from "../../../constants/links";
+import SendIcon from "@mui/icons-material/Send";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 
 const AddPostModal = ({ isOpen, onClose }) => {
   const { authFetch } = useAuth();
   const [postImage, setPostImage] = useState(null);
+  const [fileName, setFileName] = useState('');
   const [postBody, setPostBody] = useState('');
 
   const CreatePost = () => {
@@ -59,8 +62,8 @@ const AddPostModal = ({ isOpen, onClose }) => {
     >
       <Paper
         sx={{
-          width: { xs: "100%", md: 550 },
-          height: { xs: "100%", md: 350 },
+          width: { xs: "100%", md: 750 },
+          height: { xs: "100%", md: 500 },
           position: "absolute",
           display: "flex",
           flexDirection: "column",
@@ -87,23 +90,53 @@ const AddPostModal = ({ isOpen, onClose }) => {
           </Tooltip>
         </Box>
 
-        <input
-          accept="image/*"
-          id="icon-button-file"
-          type="file"
-          onChange={(event) => {
-            const file = event.target.files[0];
-            setPostImage(file);
-          }}
-        />
+        <div>
+          <input
+            accept="image/*"
+            id="button-post-image"
+            type="file"
+            style={{ display: "none" }}
+            onChange={(event) => {
+              const file = event.target.files[0];
+              setPostImage(file);
+              setFileName(file.name);
+            }}
+          />
+          <label htmlFor="button-post-image">
+            <Button
+              variant="contained"
+              component="span"
+              size="large"
+              sx={{
+                width: "30%",
+              }}
+              endIcon={<AttachFileIcon />}
+            >
+              Upload File
+            </Button>
+          </label>
+          {fileName && <Typography mt={3}>Selected file: {fileName}</Typography>}
+        </div>
 
         <TextField
           label="Body"
           placeholder="Body of you're post..."
+          multiline
+          rows={7}
           onChange={(e) => setPostBody(e.target.value)}
         ></TextField>
 
-        <button onClick={CreatePost}>Submit</button>
+        <Button
+          variant="contained"
+          size="large"
+          sx={{
+            width: "30%",
+          }}
+          endIcon={<SendIcon />}
+          onClick={CreatePost}
+        >
+          Create Post
+        </Button>
       </Paper>
     </Modal>
   );
