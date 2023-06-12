@@ -1,10 +1,14 @@
 import Page from "../../shared/Page";
+import Post from "./Post";
+import { Box, Paper, TextField, Typography, Avatar, IconButton, Divider, Button } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import { Box, Paper, TextField, Typography, Avatar, IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import { useSnackbar } from "notistack";
 import { useNavigate, useParams } from "react-router-dom";
 import { API_URL } from "../../../constants/links";
+import AddPostModal from "../Profile/AddPostModal";
 
 const ProfilePage = () => {
 	const { isLoggedIn, user, authFetch } = useAuth();
@@ -13,11 +17,12 @@ const ProfilePage = () => {
 	const navigate = useNavigate();
 	const [profile, setProfile] = useState(null);
 	const [selectedImage, setSelectedImage] = useState(null);
+	const [modalOpen, setModalOpen] = useState(false);
+	const [postsData, setPostsData] = useState(null);
 
 	const handleImageUpload = (event) => {
 		const file = event.target.files[0];
 		setSelectedImage(file);
-		console.log(file);
 
 		const formData = new FormData();
 
@@ -51,6 +56,22 @@ const ProfilePage = () => {
 			.then((data) => setProfile(data));
 	};
 
+	const FetchPosts = () => {
+		authFetch(`users/${id}/posts`, {
+			method: "GET",
+			Headers: {
+				"Content-Type": "application/json",
+			},
+		})
+			.then((r) => r.json())
+			.then((data) => {
+				setPostsData(data);
+			})
+			.catch(() => {
+				console.log("Error fetching posts data");
+			});
+	};
+
 	const UpdateBio = (biography) => {
 		authFetch(`users/updateBio?bio=${biography}`, { method: "PUT" });
 	};
@@ -59,93 +80,121 @@ const ProfilePage = () => {
 		if (!isLoggedIn) navigate("/login");
 
 		FetchProfile();
+		FetchPosts();
 	}, []);
 
-	// console.log(user);
-	// console.log(id);
-	// console.log(profile);
-
-	return (
+		return (
 		<Page title="Profile">
 			<Box
 				display={"flex"}
-				sx={{ height: "92vh", width: "100%" }}
+				flexDirection="column"
 				justifyContent="center"
 				alignItems="center"
-				flexDirection="column"
+				sx={{ marginTop: { xs: 0, md: 2.5 } }}
 			>
-				<Paper
-					elevation={6}
-					sx={{
-						height: { xs: "100%", md: "75%" },
-						width: { xs: "100%", md: "50%" },
-					}}
+				<Box
+					display={"flex"}
+					sx={{ height: "90vh", width: "100%" }}
+					justifyContent="space-evenly"
+					alignItems="center"
+					flexDirection="column"
 				>
-					<Box
-						display={"flex"}
-						padding={7}
+					<Paper
+						elevation={6}
 						sx={{
-							width: "100%",
-							height: "70%",
-							justifyContent: "center",
-							alignItems: "center",
-							flexDirection: "column",
+							height: { xs: "100%", md: "90%" },
+							width: { xs: "100%", md: "50%" },
 						}}
 					>
-						{isLoggedIn && user.id === id && (
-							<input accept="image/*" id="icon-button-file" type="file" onChange={handleImageUpload} />
-						)}
-
-						<label htmlFor="icon-button-file">
-							<IconButton
-								color="primary"
-								aria-label="upload picture"
-								component="span"
-								disabled={isLoggedIn && user.id === id ? false : true}
-							>
-								<Avatar
-									src={`${API_URL}users/${id}/profilePicture`}
-									sx={{
-										width: "300px",
-										height: "300px",
-									}}
-								></Avatar>
-							</IconButton>
-						</label>
-
-						<Typography variant="h3" mt={2}>
-							{profile?.username}
-						</Typography>
-					</Box>
-
-					<Box
-						display={"flex"}
-						padding={7}
-						sx={{
-							width: "100%",
-							height: "30%",
-							justifyContent: "center",
-							flexDirection: "column",
-						}}
-					>
-						<TextField
-							placeholder="Write you're own biography here..."
-							multiline
-							rows={7}
+						<Box
+							display={"flex"}
+							padding={7}
 							sx={{
-								marginBottom: 8,
+								width: "100%",
+								height: "70%",
+								justifyContent: "center",
+								alignItems: "center",
+								flexDirection: "column",
 							}}
-							inputProps={{
-								onBlur: (e) => {
-									const biography = e.target.value;
-									UpdateBio(biography);
-								},
+						>
+							<Box display={"flex"} sx={{ width: "100%", flexDirection: "column", alignItems: "flex-end" }}>
+								<Button variant="outlined" size="large" startIcon={<AddIcon />} onClick={() => setModalOpen(true)}>
+									<Typography>Add Post</Typography>
+								</Button>
+
+								<AddPostModal
+									isOpen={modalOpen}
+									onClose={() => {
+										setModalOpen(false);
+										FetchPosts();
+									}}
+								/>
+							</Box>
+
+							{isLoggedIn && user.id === id && (
+								<input
+									style={{ display: "none" }}
+									accept="image/*"
+									id="icon-button-file"
+									type="file"
+									onChange={handleImageUpload}
+								/>
+							)}
+
+							<label htmlFor="icon-button-file">
+								<IconButton
+									color="primary"
+									aria-label="upload picture"
+									component="span"
+									disabled={isLoggedIn && user.id === id ? false : true}
+								>
+									<Avatar
+										src={`${API_URL}users/${id}/profilePicture`}
+										sx={{
+											width: "300px",
+											height: "300px",
+										}}
+									></Avatar>
+								</IconButton>
+							</label>
+
+							<Typography variant="h3" mt={5} mb={5}>
+								{profile?.username}
+							</Typography>
+						</Box>
+
+						<Box
+							display={"flex"}
+							padding={7}
+							sx={{
+								width: "100%",
+								height: "30%",
+								justifyContent: "center",
+								flexDirection: "column",
 							}}
-							disabled={user.id != id}
-							defaultValue={profile?.biography}
-						/>
-					</Box>
-				</Paper>
+						>
+							<TextField
+								placeholder="Write you're own biography here..."
+								multiline
+								rows={7}
+								sx={{
+									marginBottom: 8,
+								}}
+								inputProps={{
+									onBlur: (e) => {
+										const biography = e.target.value;
+										UpdateBio(biography);
+									},
+								}}
+								disabled={user.id != id}
+								defaultValue={profile?.biography}
+							/>
+						</Box>
+					</Paper>
+				</Box>
+				{postsData?.map((data) => (
+					<Post data={data} />
+				))}
 			</Box>
 		</Page>
 	);
