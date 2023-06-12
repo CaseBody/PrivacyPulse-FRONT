@@ -12,6 +12,8 @@ import { SnackbarProvider } from "notistack";
 import LogoutPage from "./component/pages/Logout/LogoutPage.jsx";
 import ProfilePage from "./component/pages/Profile/ProfilePage.jsx";
 import FriendsPage from "./component/pages/Friends/FriendsPage.jsx";
+import ChatsPage from "./component/pages/Chats/ChatsPage.jsx";
+import SettingsPage from "./component/pages/Settings/SettingsPage.jsx";
 
 const darkTheme = createTheme({
 	palette: {
@@ -20,30 +22,38 @@ const darkTheme = createTheme({
 });
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-  },
-  {
-    path: "/login",
-    element: <LoginPage />,
-  },
-  {
-    path: "/register",
-    element: <RegisterPage />,
-  },
-  {
-    path: "/logout",
-    element: <LogoutPage />,
-  },
-  {
-    path: "/users/:id/profile",
-    element: <ProfilePage />,
-  },
-  {
-    path: "/friends",
-    element: <FriendsPage />,
-  },
+	{
+		path: "/",
+		element: <App />,
+	},
+	{
+		path: "/login",
+		element: <LoginPage />,
+	},
+	{
+		path: "/register",
+		element: <RegisterPage />,
+	},
+	{
+		path: "/logout",
+		element: <LogoutPage />,
+	},
+	{
+		path: "/friends",
+		element: <FriendsPage />,
+	},
+	{
+		path: "/chats",
+		element: <ChatsPage />,
+	},
+	{
+		path: "/users/:id/profile",
+		element: <ProfilePage />,
+	},
+	{
+		path: "/settings",
+		element: <SettingsPage />,
+	},
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

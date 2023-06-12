@@ -2,6 +2,7 @@ import Page from "../../shared/Page";
 import Post from "./Post";
 import { Box, Paper, TextField, Typography, Avatar, IconButton, Divider, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import { Box, Paper, TextField, Typography, Avatar, IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import { useSnackbar } from "notistack";
@@ -27,23 +28,26 @@ const ProfilePage = () => {
 
 		formData.append("File", file);
 
-		const response = authFetch(`users/uploadProfileImage`, {
-			method: "PUT",
-			body: formData,
+		authFetch(
+			`users/uploadProfileImage`,
+			{
+				method: "PUT",
+				body: formData,
+			},
+			false,
+			true
+		).then((response) => {
+			if (response.ok) {
+				enqueueSnackbar("Image has successfully been uploaded", { variant: "success" });
+				setTimeout(function () {
+					location.reload();
+				}, 500);
+			} else {
+				enqueueSnackbar("There was an error while uploading the image", {
+					variant: "error",
+				});
+			}
 		});
-
-		if (response) {
-			enqueueSnackbar("Image has successfully been uploaded", {
-				variant: "success",
-			});
-			setTimeout(function () {
-				location.reload();
-			}, 500);
-		} else {
-			enqueueSnackbar("There was an error while uploading the image", {
-				variant: "error",
-			});
-		}
 	};
 
 	const FetchProfile = () => {
@@ -79,7 +83,7 @@ const ProfilePage = () => {
 		FetchPosts();
 	}, []);
 
-	return (
+		return (
 		<Page title="Profile">
 			<Box
 				display={"flex"}
