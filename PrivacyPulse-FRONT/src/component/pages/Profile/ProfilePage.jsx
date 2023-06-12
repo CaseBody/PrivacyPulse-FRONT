@@ -2,7 +2,6 @@ import Page from "../../shared/Page";
 import Post from "./Post";
 import { Box, Paper, TextField, Typography, Avatar, IconButton, Divider, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { Box, Paper, TextField, Typography, Avatar, IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import { useSnackbar } from "notistack";
@@ -83,7 +82,7 @@ const ProfilePage = () => {
 		FetchPosts();
 	}, []);
 
-		return (
+	return (
 		<Page title="Profile">
 			<Box
 				display={"flex"}

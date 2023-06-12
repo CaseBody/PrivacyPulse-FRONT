@@ -93,7 +93,9 @@ const Post = ({ data }) => {
 							<img src={msgImg} style={{ height: "60%", width: "80%" }} alt="msgImg" />
 						</Tooltip>
 					</Box>
-					<Typography sx={{ mr: 2 }}>{data.postedAt}</Typography>
+					<Typography sx={{ mr: 2 }}>
+						{new Date(data.postedAt).toLocaleDateString(undefined, { hour: "2-digit", minute: "2-digit" })}
+					</Typography>
 				</Box>
 			</Paper>
 		</Box>
