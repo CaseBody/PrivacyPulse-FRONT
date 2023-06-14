@@ -11,18 +11,24 @@ const AddPostModal = ({ isOpen, onClose }) => {
 	const { authFetch } = useAuth();
 	const [postImage, setPostImage] = useState(null);
 	const [fileName, setFileName] = useState("");
-	const [postBody, setPostBody] = useState("");
+	const [postBody, setPostBody] = useState();
 
 	const CreatePost = () => {
 		if (postImage && postBody) {
 			const postData = new FormData();
+			console.log(postImage);
 			postData.append("body", postBody);
 			postData.append("image", postImage);
 
-			authFetch("posts/create", {
-				method: "POST",
-				body: postData,
-			}).then((response) => {
+			authFetch(
+				"posts/create",
+				{
+					method: "POST",
+					body: postData,
+				},
+				false,
+				true
+			).then((response) => {
 				if (response.ok) {
 					enqueueSnackbar("Post has successfully been created", {
 						variant: "success",

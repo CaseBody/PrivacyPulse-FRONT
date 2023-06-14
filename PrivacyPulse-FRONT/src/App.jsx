@@ -31,12 +31,11 @@ function App() {
 
 	return (
 		<Page>
-			<Typography className="read-the-docs">This is the home page.</Typography>
-			{isLoggedIn && (
-				<Typography>
-					<b>Welcome back {user.userName}</b>
-				</Typography>
-			)}
+			<Typography
+				variant="h2"
+				sx={{ width: "100%", textAlign: "center", mt: 2 }}
+				className="read-the-docs"
+			>{`${user?.userName}'s Feed`}</Typography>
 			{posts?.map((data) => (
 				<Post data={data} />
 			))}
