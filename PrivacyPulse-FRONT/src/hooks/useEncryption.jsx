@@ -36,7 +36,6 @@ const useEncryption = (publicKey, privateKey) => {
 			false,
 			["encrypt"]
 		);
-
 		importedPublicKey = cryptoKey;
 	};
 
