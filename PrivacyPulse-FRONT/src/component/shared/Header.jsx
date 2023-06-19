@@ -186,7 +186,7 @@ function Header() {
               textDecoration: "none",
             }}
           >
-            Privacy
+            Pulse
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
@@ -228,7 +228,6 @@ function Header() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              {/* <AccountCircle /> */}
             </IconButton>
           </Box>
 
