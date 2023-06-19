@@ -23,8 +23,15 @@ const Post = ({ data }) => {
 	const [liked, setLiked] = useState(false);
 
 	const toggleHeart = () => {
-		setLiked(!liked);
-	};
+    setLiked(!liked);
+
+    const selectedPostId = data.id;
+    // if (liked){
+    //   FetchDislikePost(id);
+    // } else {
+    //   FetchLikePost(id);
+    // }
+  };
 
 	return (
 		<Box
@@ -74,7 +81,7 @@ const Post = ({ data }) => {
 							marginBottom: "10px",
 						}}
 						alignItems="center"
-						onClick={toggleHeart}
+						onClick={() => toggleHeart()}
 					>
 						{liked ? (
 							<Tooltip title="Liked">
