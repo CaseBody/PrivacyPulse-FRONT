@@ -20,18 +20,36 @@ import redHeart from "../../../../src/assets/red-heart.png";
 import heart from "../../../../src/assets/heart.png";
 
 const Post = ({ data }) => {
+	const { isLoggedIn, authFetch } = useAuth();
 	const [liked, setLiked] = useState(false);
 
 	const toggleHeart = () => {
     setLiked(!liked);
 
-    const selectedPostId = data.id;
-    // if (liked){
-    //   FetchDislikePost(id);
-    // } else {
-    //   FetchLikePost(id);
-    // }
+    const id = data.id;
+	// console.log(selectedPostId);
+	
+    if (liked){
+      FetchDislikePost(id);
+    } 
+	if (!liked){
+      FetchLikePost(id);
+    }
   };
+
+  const FetchLikePost = (id) => {
+    authFetch(`posts/${id}/like`, { method: "POST" })
+      .then((r) => r.json())
+      .catch(() => {
+        console.log("Error liking the post");
+      });
+  };
+
+  useEffect(() => {
+    if (!isLoggedIn) navigate("/login");
+
+	FetchLikePost(data.id);
+  }, []);
 
 	return (
 		<Box
