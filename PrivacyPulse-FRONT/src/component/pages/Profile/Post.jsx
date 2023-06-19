@@ -24,18 +24,16 @@ const Post = ({ data }) => {
 	const [liked, setLiked] = useState(false);
 
 	const toggleHeart = () => {
-    setLiked(!liked);
+		setLiked(!liked);
+		const id = data.id;
 
-    const id = data.id;
-	// console.log(selectedPostId);
-	
-    if (liked){
-      FetchDislikePost(id);
-    } 
-	if (!liked){
-      FetchLikePost(id);
-    }
-  };
+		if (liked){
+			FetchDislikePost(id);
+		} 
+		if (!liked){
+			FetchLikePost(id);
+		}
+	};
 
   const FetchLikePost = (id) => {
     authFetch(`posts/${id}/like`, { method: "POST" })
@@ -44,11 +42,20 @@ const Post = ({ data }) => {
         console.log("Error liking the post");
       });
   };
+  
+  const FetchDislikePost = (id) => {
+    authFetch(`posts/${id}/dislike`, { method: "DELETE" })
+      .then((r) => r.json())
+      .catch(() => {
+        console.log("Error disliking the post");
+      });
+  };
 
   useEffect(() => {
     if (!isLoggedIn) navigate("/login");
 
 	FetchLikePost(data.id);
+	FetchDislikePost(data.id);
   }, []);
 
 	return (
@@ -99,7 +106,7 @@ const Post = ({ data }) => {
 							marginBottom: "10px",
 						}}
 						alignItems="center"
-						onClick={() => toggleHeart()}
+						onClick={toggleHeart}
 					>
 						{liked ? (
 							<Tooltip title="Liked">
