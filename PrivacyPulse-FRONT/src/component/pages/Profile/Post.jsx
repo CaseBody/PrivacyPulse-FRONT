@@ -19,6 +19,7 @@ import msgImg from "../../../../src/assets/send-message.png";
 import redHeart from "../../../../src/assets/red-heart.png";
 import heart from "../../../../src/assets/heart.png";
 import SharePostModal from "./SharePostModal";
+import ExpandableImage from "../../shared/ExpandableImage";
 
 const Post = ({ data }) => {
 	const { isLoggedIn, authFetch } = useAuth();
@@ -29,26 +30,25 @@ const Post = ({ data }) => {
 		setLiked(!liked);
 		const id = data.id;
 
-		if (liked){
+		if (liked) {
 			FetchDislikePost(id);
-		} 
-		if (!liked){
+		}
+		if (!liked) {
 			FetchLikePost(id);
 		}
 	};
 
-  const FetchLikePost = (id) => {
-    authFetch(`posts/${id}/like`, { method: "POST" })
-  };
-  
-  const FetchDislikePost = (id) => {
-    authFetch(`posts/${id}/dislike`, { method: "DELETE" })
-  };
+	const FetchLikePost = (id) => {
+		authFetch(`posts/${id}/like`, { method: "POST" });
+	};
 
-  useEffect(() => {
-    if (!isLoggedIn) navigate("/login");
+	const FetchDislikePost = (id) => {
+		authFetch(`posts/${id}/dislike`, { method: "DELETE" });
+	};
 
-  }, []);
+	useEffect(() => {
+		if (!isLoggedIn) navigate("/login");
+	}, []);
 
 	return (
 		<>
@@ -78,7 +78,7 @@ const Post = ({ data }) => {
 					</Box>
 
 					<Box sx={{ height: "40vh", width: "100%" }}>
-						<img
+						<ExpandableImage
 							src={"data:image/png;base64," + data.image}
 							style={{ height: "100%", width: "100%", objectFit: "cover" }}
 							alt="postImg"
