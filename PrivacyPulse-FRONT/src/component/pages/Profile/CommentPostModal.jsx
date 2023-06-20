@@ -5,19 +5,19 @@ import {
   Card,
   CardActionArea,
   CircularProgress,
+  Divider,
   IconButton,
   Modal,
   Paper,
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import { API_URL } from "../../../constants/links";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useSnackbar } from "notistack";
 import SendIcon from "@mui/icons-material/Send";
-
 
 const CommentPostModal = ({ isOpen, onClose, postId }) => {
   const { isLoggedIn, user, authFetch } = useAuth();
@@ -25,7 +25,7 @@ const CommentPostModal = ({ isOpen, onClose, postId }) => {
   const [query, setQuery] = useState("");
   const [disabled, setDisabled] = useState(false);
   const [commentData, setCommentData] = useState(false);
-  const [allSelectedComments, setAllSelectedComments] = useState("");
+  const [allSelectedComments, setAllSelectedComments] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
 
   const addComment = () => {
@@ -42,11 +42,11 @@ const CommentPostModal = ({ isOpen, onClose, postId }) => {
       } else {
         enqueueSnackbar("Error adding comment to post", { variant: "error" });
       }
+      FetchComments();
     });
-    
-    onClose();
+
     setDisabled(false);
-  }
+  };
 
   const handleCommentData = (body) => {
     setCommentData({
@@ -55,7 +55,7 @@ const CommentPostModal = ({ isOpen, onClose, postId }) => {
     });
   };
 
-  const FetchComments = (postId) => {
+  const FetchComments = () => {
     authFetch(`comments/${postId}/get`, {
       method: "GET",
     })
@@ -111,7 +111,7 @@ const CommentPostModal = ({ isOpen, onClose, postId }) => {
             label="Comment text"
             placeholder="Write comment text"
             sx={{
-              width: "70%",
+              width: "65%",
             }}
             value={commentData.Body || ""}
           />
@@ -120,12 +120,12 @@ const CommentPostModal = ({ isOpen, onClose, postId }) => {
             variant="outlined"
             size="large"
             sx={{
-              width: "25%",
+              width: "30%",
             }}
             endIcon={<SendIcon />}
             onClick={addComment}
           >
-            Create Post
+            Create Comment
           </Button>
         </Box>
         <Box
@@ -135,6 +135,51 @@ const CommentPostModal = ({ isOpen, onClose, postId }) => {
             "&::-webkit-scrollbar": {},
           }}
         >
+          {allSelectedComments?.map((data) => (
+            <React.Fragment key={data.id}>
+              <Paper sx={{ marginBottom: "10px" }}>
+                <Box
+                  display={"flex"}
+                  sx={{
+                    alignItems: "center",
+                    height: "50px",
+                  }}
+                  pt={3}
+                  ml={3}
+                >
+                  <Avatar
+                    src={`${API_URL}users/${data.id}/profilePicture`}
+                    sx={{
+                      width: "50px",
+                      height: "50px",
+                    }}
+                  ></Avatar>
+                  <Typography
+                    sx={{
+                      marginLeft: "10px",
+                      marginRight: "10px",
+                    }}
+                  >
+                    |
+                  </Typography>
+                  <Typography variant="h5">{data?.username}</Typography>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  pt={3}
+                  ml={3}
+                >
+                  <Typography variant="h6">{data?.body}</Typography>
+                </Box>
+              </Paper>
+              <Divider
+                sx={{ marginTop: "20px", marginBottom: "20px" }}
+              ></Divider>
+            </React.Fragment>
+          ))}
           <Box display="flex" flexWrap="wrap" gap={1}></Box>
         </Box>
       </Paper>

@@ -65,7 +65,6 @@ const ProfilePage = () => {
 			.then((r) => r.json())
 			.then((data) => {
 				setPostsData(data);
-        console.log(data);
 			})
 			.catch(() => {
 				console.log("Error fetching posts data");
