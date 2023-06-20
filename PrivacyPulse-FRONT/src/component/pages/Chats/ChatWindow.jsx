@@ -23,6 +23,8 @@ const ChatWindow = ({ chat, openDeleteModal, close }) => {
 
 	const messageEndRef = useRef(null);
 
+	console.log(messages);
+
 	useEffect(() => {
 		authFetch("chats/" + chat.id, { method: "GET" })
 			.then((r) => r.json())
@@ -36,6 +38,20 @@ const ChatWindow = ({ chat, openDeleteModal, close }) => {
 							{
 								isSystem: true,
 								message: message.text,
+							},
+						]);
+					} else if (message.type == "SharedPost") {
+						setMessages((state) => [
+							...state,
+							{
+								isSystem: false,
+								fromUserId: message.fromUserId,
+								sendDate: message.sendDate,
+								sharedPost: {
+									username: message.sharedPost.username,
+									userId: message.sharedPost.userId,
+									image: message.sharedPost.image,
+								},
 							},
 						]);
 					} else {
@@ -154,6 +170,24 @@ const ChatWindow = ({ chat, openDeleteModal, close }) => {
 							}}
 						>
 							<Typography sx={{ wordWrap: "break-word" }}>{m.message}</Typography>
+							{m.sharedPost && (
+								<Box>
+									<Box
+										sx={{ gap: 1, mb: 1, display: "flex", width: "100%", alignItems: "center", justifyContent: "center" }}
+									>
+										<Avatar src={`${API_URL}users/${m.sharedPost.userId}/profilePicture`} />
+
+										<Typography>Shared post from {m.sharedPost.username}</Typography>
+									</Box>
+									<Box>
+										<img
+											src={"data:image/png;base64," + m.sharedPost.image}
+											style={{ height: "100%", width: "100%", objectFit: "cover" }}
+											alt="postImg"
+										/>
+									</Box>
+								</Box>
+							)}
 							{!m.isSystem && (
 								<Typography sx={{ fontSize: 10, width: "100%", textAlign: user.id != m.fromUserId ? "start" : "end" }}>
 									{new Date(m.sendDate).toLocaleDateString(undefined, { hour: "2-digit", minute: "2-digit" })}
