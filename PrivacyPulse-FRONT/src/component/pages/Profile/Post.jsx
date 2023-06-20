@@ -1,14 +1,14 @@
 import {
-	Avatar,
-	Box,
-	Card,
-	CardActionArea,
-	CircularProgress,
-	Divider,
-	IconButton,
-	Paper,
-	TextField,
-	Typography,
+  Avatar,
+  Box,
+  Card,
+  CardActionArea,
+  CircularProgress,
+  Divider,
+  IconButton,
+  Paper,
+  TextField,
+  Typography,
 } from "@mui/material";
 import useAuth from "../../../hooks/useAuth";
 import { useEffect, useState } from "react";
@@ -23,36 +23,36 @@ import CommentPostModal from "./CommentPostModal";
 import ExpandableImage from "../../shared/ExpandableImage";
 
 const Post = ({ data }) => {
-	const { isLoggedIn, authFetch } = useAuth();
-	const [liked, setLiked] = useState(false);
-	const [shareModalOpen, setShareModalOpen] = useState(false);
-	const [commentModalOpen, setCommentModalOpen] = useState(false);
+  const { isLoggedIn, authFetch } = useAuth();
+  const [liked, setLiked] = useState(data.isLiked);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [commentModalOpen, setCommentModalOpen] = useState(false);
 
-	const toggleHeart = () => {
-		setLiked(!liked);
-		const id = data.id;
+  const toggleHeart = () => {
+    setLiked(!liked);
+    const id = data.id;
 
-		if (liked) {
-			FetchDislikePost(id);
-		}
-		if (!liked) {
-			FetchLikePost(id);
-		}
-	};
+    if (liked) {
+      FetchDislikePost(id);
+    }
+    if (!liked) {
+      FetchLikePost(id);
+    }
+  };
 
-	const FetchLikePost = (id) => {
-		authFetch(`posts/${id}/like`, { method: "POST" });
-	};
+  const FetchLikePost = (id) => {
+    authFetch(`posts/${id}/like`, { method: "POST" });
+  };
 
-	const FetchDislikePost = (id) => {
-		authFetch(`posts/${id}/dislike`, { method: "DELETE" });
-	};
+  const FetchDislikePost = (id) => {
+    authFetch(`posts/${id}/dislike`, { method: "DELETE" });
+  };
 
-	useEffect(() => {
-		if (!isLoggedIn) navigate("/login");
-	}, []);
+  useEffect(() => {
+    if (!isLoggedIn) navigate("/login");
+  }, []);
 
-	return (
+  return (
     <>
       <Box
         display={"flex"}
@@ -90,13 +90,13 @@ const Post = ({ data }) => {
             </Typography>
           </Box>
 
-					<Box sx={{ height: "40vh", width: "100%" }}>
-						<ExpandableImage
-							src={"data:image/png;base64," + data.image}
-							style={{ height: "100%", width: "100%", objectFit: "cover" }}
-							alt="postImg"
-						/>
-					</Box>
+          <Box sx={{ height: "40vh", width: "100%" }}>
+            <ExpandableImage
+              src={"data:image/png;base64," + data.image}
+              style={{ height: "100%", width: "100%", objectFit: "cover" }}
+              alt="postImg"
+            />
+          </Box>
 
           <Box sx={{ height: "15vh", width: "100%" }}>
             <Typography sx={{ height: "100%", width: "100%", p: 2 }}>
@@ -183,8 +183,8 @@ const Post = ({ data }) => {
         onClose={() => setShareModalOpen(false)}
         postId={data.id}
       />
-	  
-	  <CommentPostModal
+
+      <CommentPostModal
         isOpen={commentModalOpen}
         onClose={() => setCommentModalOpen(false)}
         postId={data.id}
