@@ -54,8 +54,6 @@ const Post = ({ data }) => {
   useEffect(() => {
     if (!isLoggedIn) navigate("/login");
 
-	FetchLikePost(data.id);
-	FetchDislikePost(data.id);
   }, []);
 
 	return (
