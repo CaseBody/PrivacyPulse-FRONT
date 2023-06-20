@@ -37,18 +37,10 @@ const Post = ({ data }) => {
 
   const FetchLikePost = (id) => {
     authFetch(`posts/${id}/like`, { method: "POST" })
-      .then((r) => r.json())
-      .catch(() => {
-        console.log("Error liking the post");
-      });
   };
   
   const FetchDislikePost = (id) => {
     authFetch(`posts/${id}/dislike`, { method: "DELETE" })
-      .then((r) => r.json())
-      .catch(() => {
-        console.log("Error disliking the post");
-      });
   };
 
   useEffect(() => {
