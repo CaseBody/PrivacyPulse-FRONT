@@ -20,6 +20,7 @@ import redHeart from "../../../../src/assets/red-heart.png";
 import heart from "../../../../src/assets/heart.png";
 import SharePostModal from "./SharePostModal";
 import CommentPostModal from "./CommentPostModal";
+import ExpandableImage from "../../shared/ExpandableImage";
 
 const Post = ({ data }) => {
 	const { isLoggedIn, authFetch } = useAuth();
@@ -31,26 +32,25 @@ const Post = ({ data }) => {
 		setLiked(!liked);
 		const id = data.id;
 
-		if (liked){
+		if (liked) {
 			FetchDislikePost(id);
-		} 
-		if (!liked){
+		}
+		if (!liked) {
 			FetchLikePost(id);
 		}
 	};
 
-  const FetchLikePost = (id) => {
-    authFetch(`posts/${id}/like`, { method: "POST" })
-  };
-  
-  const FetchDislikePost = (id) => {
-    authFetch(`posts/${id}/dislike`, { method: "DELETE" })
-  };
+	const FetchLikePost = (id) => {
+		authFetch(`posts/${id}/like`, { method: "POST" });
+	};
 
-  useEffect(() => {
-    if (!isLoggedIn) navigate("/login");
+	const FetchDislikePost = (id) => {
+		authFetch(`posts/${id}/dislike`, { method: "DELETE" });
+	};
 
-  }, []);
+	useEffect(() => {
+		if (!isLoggedIn) navigate("/login");
+	}, []);
 
 	return (
     <>
@@ -90,13 +90,13 @@ const Post = ({ data }) => {
             </Typography>
           </Box>
 
-          <Box sx={{ height: "40vh", width: "100%" }}>
-            <img
-              src={"data:image/png;base64," + data.image}
-              style={{ height: "100%", width: "100%", objectFit: "cover" }}
-              alt="postImg"
-            />
-          </Box>
+					<Box sx={{ height: "40vh", width: "100%" }}>
+						<ExpandableImage
+							src={"data:image/png;base64," + data.image}
+							style={{ height: "100%", width: "100%", objectFit: "cover" }}
+							alt="postImg"
+						/>
+					</Box>
 
           <Box sx={{ height: "15vh", width: "100%" }}>
             <Typography sx={{ height: "100%", width: "100%", p: 2 }}>

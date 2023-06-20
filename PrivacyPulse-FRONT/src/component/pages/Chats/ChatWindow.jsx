@@ -7,6 +7,7 @@ import useAuth from "../../../hooks/useAuth";
 import useEncryption from "../../../hooks/useEncryption";
 import { HubConnectionBuilder } from "@microsoft/signalr";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ExpandableImage from "../../shared/ExpandableImage";
 
 const ChatWindow = ({ chat, openDeleteModal, close }) => {
 	if (!chat) return;
@@ -23,27 +24,19 @@ const ChatWindow = ({ chat, openDeleteModal, close }) => {
 
 	const messageEndRef = useRef(null);
 
-	console.log(messages);
-
 	useEffect(() => {
 		authFetch("chats/" + chat.id, { method: "GET" })
 			.then((r) => r.json())
 			.then((messages) => {
-				setMessages([]);
-
-				messages.forEach((message) => {
-					if (message.type == "SystemMessage") {
-						setMessages((state) => [
-							...state,
-							{
+				Promise.all(
+					messages.map(async (message) => {
+						if (message.type === "SystemMessage") {
+							return {
 								isSystem: true,
 								message: message.text,
-							},
-						]);
-					} else if (message.type == "SharedPost") {
-						setMessages((state) => [
-							...state,
-							{
+							};
+						} else if (message.type === "SharedPost") {
+							return {
 								isSystem: false,
 								fromUserId: message.fromUserId,
 								sendDate: message.sendDate,
@@ -52,26 +45,23 @@ const ChatWindow = ({ chat, openDeleteModal, close }) => {
 									userId: message.sharedPost.userId,
 									image: message.sharedPost.image,
 								},
-							},
-						]);
-					} else {
-						decryptMessage(message.message).then((decrypted) => {
-							setMessages((state) => [
-								...state,
-								{
-									fromUserId: message.fromUserId,
-									message: decrypted,
-									sendDate: message.sendDate,
-									isSystem: false,
-								},
-							]);
-						});
-					}
+							};
+						} else {
+							const decrypted = await decryptMessage(message.message);
+							return {
+								fromUserId: message.fromUserId,
+								message: decrypted,
+								sendDate: message.sendDate,
+								isSystem: false,
+							};
+						}
+					})
+				).then((result) => {
+					setMessages(result);
+					setTimeout(() => {
+						messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+					}, 10);
 				});
-
-				setTimeout(() => {
-					messageEndRef.current.scrollIntoView({ behavior: "smooth" });
-				}, 200);
 			});
 	}, [chat]);
 
@@ -180,10 +170,11 @@ const ChatWindow = ({ chat, openDeleteModal, close }) => {
 										<Typography>Shared post from {m.sharedPost.username}</Typography>
 									</Box>
 									<Box>
-										<img
+										<ExpandableImage
 											src={"data:image/png;base64," + m.sharedPost.image}
 											style={{ height: "100%", width: "100%", objectFit: "cover" }}
 											alt="postImg"
+											title={"Post image"}
 										/>
 									</Box>
 								</Box>
