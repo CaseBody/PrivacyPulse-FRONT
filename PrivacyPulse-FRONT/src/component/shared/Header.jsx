@@ -9,7 +9,6 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-// import AccountCircle from "@material-ui/icons/AccountCircle";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
@@ -154,74 +153,82 @@ function Header() {
 						</Menu>
 					</Box>
 
-					<Typography
-						variant="h5"
-						noWrap
-						component="a"
-						href="/"
-						sx={{
-							display: { xs: "flex", md: "none" },
-							fontFamily: "monospace",
-							fontWeight: 700,
-							letterSpacing: ".3rem",
-							color: PRIVACY_COLOR,
-							textDecoration: "none",
-						}}
-					>
-						Privacy
-					</Typography>
-					<Typography
-						variant="h5"
-						noWrap
-						component="a"
-						href="/"
-						sx={{
-							mr: 2,
-							display: { xs: "flex", md: "none" },
-							flexGrow: 1,
-							fontFamily: "monospace",
-							fontWeight: 700,
-							letterSpacing: ".3rem",
-							color: PULSE_COLOR,
-							textDecoration: "none",
-						}}
-					>
-						Privacy
-					</Typography>
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              display: { xs: "flex", md: "none" },
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: PRIVACY_COLOR,
+              textDecoration: "none",
+            }}
+          >
+            Privacy
+          </Typography>
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              display: { xs: "flex", md: "none" },
+              flexGrow: 1,
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: PULSE_COLOR,
+              textDecoration: "none",
+            }}
+          >
+            Pulse
+          </Typography>
 
 					<Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
 
-					<Box sx={{ display: { xs: "none", md: "flex" } }}>
-						{isLoggedIn && (
-							<>
-								<Tooltip title="Chats">
-									<IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={() => navigate("/chats")}>
-										<Badge color="error">
-											<ChatIcon />
-										</Badge>
-									</IconButton>
-								</Tooltip>
-								<Tooltip title="Friends">
-									<IconButton size="large" color="inherit" onClick={() => navigate("/friends")}>
-										<Badge badgeContent={friendRequestNotifs} color="error">
-											<PeopleIcon />
-										</Badge>
-									</IconButton>
-								</Tooltip>
-							</>
-						)}
-						<IconButton
-							size="large"
-							edge="end"
-							aria-label="account of current user"
-							aria-controls={menuId}
-							aria-haspopup="true"
-							onClick={handleProfileMenuOpen}
-							color="inherit"
-						>
-							{/* <AccountCircle /> */}
-						</IconButton>
-					</Box>
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            {isLoggedIn && (
+              <>
+                <Tooltip title="Chats">
+                  <IconButton
+                    size="large"
+                    aria-label="show 4 new mails"
+                    color="inherit"
+                    onClick={() => navigate("/chats")}
+                  >
+                    <Badge badgeContent={4} color="error">
+                      <ChatIcon />
+                    </Badge>
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Friends">
+                  <IconButton
+                    size="large"
+                    color="inherit"
+                    onClick={() => navigate("/friends")}
+                  >
+                    <Badge badgeContent={friendRequestNotifs} color="error">
+                      <PeopleIcon />
+                    </Badge>
+                  </IconButton>
+                </Tooltip>
+              </>
+            )}
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+            >
+            </IconButton>
+          </Box>
 
 					<Box sx={{ flexGrow: 0 }}>
 						<Tooltip title="Account">

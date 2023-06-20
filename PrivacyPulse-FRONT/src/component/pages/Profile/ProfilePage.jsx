@@ -65,6 +65,7 @@ const ProfilePage = () => {
 			.then((r) => r.json())
 			.then((data) => {
 				setPostsData(data);
+        console.log(data);
 			})
 			.catch(() => {
 				console.log("Error fetching posts data");
@@ -192,7 +193,7 @@ const ProfilePage = () => {
 					</Paper>
 				</Box>
 				{postsData?.map((data) => (
-					<Post data={data} />
+					<Post data={data} key={data.id}/>
 				))}
 			</Box>
 		</Page>

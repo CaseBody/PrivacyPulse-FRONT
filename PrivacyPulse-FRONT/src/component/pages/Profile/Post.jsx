@@ -21,12 +21,34 @@ import heart from "../../../../src/assets/heart.png";
 import SharePostModal from "./SharePostModal";
 
 const Post = ({ data }) => {
+	const { isLoggedIn, authFetch } = useAuth();
 	const [liked, setLiked] = useState(false);
 	const [shareModalOpen, setShareModalOpen] = useState(false);
 
 	const toggleHeart = () => {
 		setLiked(!liked);
+		const id = data.id;
+
+		if (liked){
+			FetchDislikePost(id);
+		} 
+		if (!liked){
+			FetchLikePost(id);
+		}
 	};
+
+  const FetchLikePost = (id) => {
+    authFetch(`posts/${id}/like`, { method: "POST" })
+  };
+  
+  const FetchDislikePost = (id) => {
+    authFetch(`posts/${id}/dislike`, { method: "DELETE" })
+  };
+
+  useEffect(() => {
+    if (!isLoggedIn) navigate("/login");
+
+  }, []);
 
 	return (
 		<>
