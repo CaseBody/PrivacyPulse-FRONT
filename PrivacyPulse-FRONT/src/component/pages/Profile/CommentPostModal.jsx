@@ -20,12 +20,13 @@ import SendIcon from "@mui/icons-material/Send";
 
 
 const CommentPostModal = ({ isOpen, onClose, postId }) => {
+  const { isLoggedIn, user, authFetch } = useAuth();
   const [users, setUsers] = useState(null);
   const [query, setQuery] = useState("");
   const [disabled, setDisabled] = useState(false);
   const [commentData, setCommentData] = useState(false);
+  const [allSelectedComments, setAllSelectedComments] = useState("");
   const { enqueueSnackbar } = useSnackbar();
-  const { authFetch } = useAuth();
 
   const addComment = () => {
     setDisabled(true);
@@ -53,6 +54,22 @@ const CommentPostModal = ({ isOpen, onClose, postId }) => {
       Body: body,
     });
   };
+
+  const FetchComments = (postId) => {
+    authFetch(`comments/${postId}/get`, {
+      method: "GET",
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        setAllSelectedComments(data);
+      });
+  };
+
+  useEffect(() => {
+    if (!isLoggedIn) navigate("/login");
+
+    FetchComments(postId);
+  }, []);
 
   return (
     <Modal
